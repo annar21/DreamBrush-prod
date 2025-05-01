@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
-import { router } from 'expo-router/build/imperative-api';
+import { useRouter } from 'expo-router';
+// import { router } from 'expo-router/build/imperative-api';
 
 interface StyleCardProps {
   image: React.ReactNode | (() => React.ReactNode);
@@ -8,10 +9,15 @@ interface StyleCardProps {
 }
 
 const StyleCard = ({image, title}: StyleCardProps) => {
+
+  const router = useRouter();
   return (
     <TouchableOpacity 
       style={{borderRadius: 10, padding: 4, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff'}}
-      onPress={() => router.push('/(tabs)/(explore)/style')}
+      onPress={() => router.push({
+        pathname: '/(tabs)/(explore)/style',
+        params: {title}
+      })}
     >
       <View style={{overflow: 'hidden', borderRadius: 10}}>
         {image && typeof image === 'function' ? image() : image}

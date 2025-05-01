@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import ProfileLink from '@/components/ProfileLink';
+import { router } from 'expo-router';
 
 
 // 6F60EF
@@ -33,7 +34,7 @@ const ProfilePage = () => {
       </View>
 
         <View style={{marginTop: 25, gap: 10}}>
-          <ProfileLink title='Edit Profile' icon={() => <Text>Icon</Text>} onPress={() => {}} />
+          <ProfileLink title='Edit Profile' icon={() => <Text>Icon</Text>} onPress={() => {router.push('/(tabs)/(profile)/edit')}} />
           <ProfileLink title='Share' icon={() => <Text>Icon</Text>} onPress={() => {}} />
           <ProfileLink title='Leave a Review' icon={() => <Text>Icon</Text>} onPress={() => {}} />
           <ProfileLink title='Legal' icon={() => <Text>Icon</Text>} onPress={() => {}} />
