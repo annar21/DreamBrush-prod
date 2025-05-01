@@ -26,7 +26,7 @@ export default function StyleDetail() {
         </TouchableOpacity>
       </View>
       <ScrollView style={{backgroundColor: '#F1F4F9'}}>
-
+        
       </ScrollView>
     </View>
   );

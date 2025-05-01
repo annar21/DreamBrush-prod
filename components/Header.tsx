@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { useRoute } from '@react-navigation/native'
 import UpgradePlanModal from './UpgradePlanModal'
+import { router } from 'expo-router'
 
 const Header = () => {
   const route = useRoute();
@@ -37,7 +38,7 @@ const Header = () => {
           <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#F1F5F8', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity 
               style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}} 
-              onPress={() => {}}
+              onPress={() => router.push('/(tabs)/profile')}
             >
               <Icon name="user" size={20} />
             </TouchableOpacity>

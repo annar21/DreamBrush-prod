@@ -9,7 +9,7 @@ export default function EditProfile() {
   const [nickname, setNickname] = useState<string>('narek_08');
 
   return (
-    <View style={{ backgroundColor: '#fff', flex: 1,  }}>
+    <View style={{ backgroundColor: '#fff', flex: 1, }}>
       
       <View style={{  paddingHorizontal: 20, paddingTop: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 15, backgroundColor: '#fff', borderRadius: 10, marginBottom: 10 }}>  
         <TouchableOpacity onPress={() => router.back()}><Icon name="arrow-left" size={20} color="000" /></TouchableOpacity>
