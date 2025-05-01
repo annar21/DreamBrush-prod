@@ -21,6 +21,7 @@ const SizeRadio = ({selectedSize, setSelectedSize}: SizeRadioProps) => {
     >
       {sizes.map((size, index) => (
         <TouchableOpacity
+        key={sizes[index]}
           style={[
             {flexDirection: 'row', alignItems: 'center', gap: 5, padding: 10, borderRadius: 10, backgroundColor: 'white'},
             selectedSize === size && {borderWidth: 1.5, borderColor: '#6B5FF0', backgroundColor: '#D5D3F8'}

@@ -38,7 +38,7 @@ const Header = () => {
           <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#F1F5F8', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity 
               style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}} 
-              onPress={() => router.push('/(tabs)/profile')}
+              onPress={() => router.push('/(tabs)/(profile)/index')}
             >
               <Icon name="user" size={20} />
             </TouchableOpacity>

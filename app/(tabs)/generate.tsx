@@ -40,6 +40,7 @@ export default function GenerateScreen() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{flexDirection: 'row', gap: 10}}>
           {styles.map((style) => 
             <StyleCard 
+              key={style}
               redirect={false} 
               title={style} 
               image={() => <View style={{width: 100, height: 100, backgroundColor: 'red'}} />}
