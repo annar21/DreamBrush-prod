@@ -1,15 +1,16 @@
-import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import api from '../../services/api';
+import Button from '../../components/Button';
+import Input from '@/components/Input';
 
 export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [secureText, setSecureText] = useState(true);
     const { register } = useAuth();
     const router = useRouter();
 
@@ -17,10 +18,19 @@ export default function Register() {
         setLoading(true);
         setError('');
         try {
+            // Register with Firebase
             await register(email, password);
+            const user = auth.currentUser;
+            const idToken = await user?.getIdToken();
+
+            // Send ID token to backend
+            const response = await api.post('/auth/register', { idToken });
+            console.log('Backend response:', response.data);
+
+            // Navigate to main app
             router.replace('/(tabs)');
-        } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Registration failed. Please try again.';
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to register. Please try again.';
             setError(errorMessage);
         }
         setLoading(false);
@@ -28,58 +38,32 @@ export default function Register() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Create an account</Text>
-            <Text style={styles.subtitle}>Enter your details below to get started.</Text>
+            <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.subtitle}>Create an account to get started.</Text>
 
-            <TextInput
-                style={styles.input}
+            <Input
                 placeholder="Email address"
-                placeholderTextColor="#999"
                 value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
 
-            <View style={styles.passwordContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    placeholderTextColor="#999"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={secureText}
-                />
-                <TouchableOpacity
-                    style={styles.eyeIcon}
-                    onPress={() => setSecureText(!secureText)}
-                >
-                    <Ionicons
-                        name={secureText ? 'eye-off' : 'eye'}
-                        size={20}
-                        color="#999"
-                    />
-                </TouchableOpacity>
-            </View>
+            <Input
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                autoCapitalize="none"
+            />
 
-            <TouchableOpacity
-                style={styles.createButton}
-                onPress={handleRegister}
-                disabled={loading}
-            >
-                <Text style={styles.createButtonText}>CREATE ACCOUNT</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.appleButton} disabled={loading}>
-                <Ionicons name="logo-apple" size={20} color="#fff" style={styles.appleIcon} />
-                <Text style={styles.appleButtonText}>Continue with Apple</Text>
-            </TouchableOpacity>
+            <Button title="SIGN UP" onPress={handleRegister} disabled={loading} />
 
             <View style={styles.signInContainer}>
                 <Text style={styles.signInText}>Already have an account? </Text>
-                <TouchableOpacity onPress={() => router.push('/auth/login')}>
-                    <Text style={styles.signInLink}>Sign in</Text>
-                </TouchableOpacity>
+                <Text style={styles.signInLink} onPress={() => router.push('/auth/login')}>
+                    Sign In
+                </Text>
             </View>
 
             {loading && <ActivityIndicator size="large" color="#6200EE" style={styles.loading} />}
@@ -107,64 +91,10 @@ const styles = StyleSheet.create({
         color: '#666',
         marginBottom: 24,
     },
-    input: {
-        backgroundColor: '#F5F6FA',
-        borderRadius: 8,
-        paddingHorizontal: 14,
-        marginBottom: 16,
-        fontSize: 16,
-        color: '#000',
-        height: 44,
-        width: '100%', // Ensure full width
-    },
-    passwordContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 16,
-        height: 44,
-        width: '100%', // Ensure the container takes full width
-        position: 'relative',
-    },
-    eyeIcon: {
-        position: 'absolute',
-        right: 14,
-        top: '50%',
-        transform: [{ translateY: -10 }], // Center vertically (half of icon height)
-    },
-    createButton: {
-        backgroundColor: '#6200EE',
-        borderRadius: 25,
-        paddingVertical: 15,
-        alignItems: 'center',
-        height: 50,
-        marginBottom: 16,
-    },
-    createButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '700',
-    },
-    appleButton: {
-        flexDirection: 'row',
-        backgroundColor: '#000',
-        borderRadius: 25,
-        paddingVertical: 15,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 50,
-        marginBottom: 16,
-    },
-    appleIcon: {
-        marginRight: 8,
-    },
-    appleButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '500',
-    },
     signInContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+        marginBottom: 16,
     },
     signInText: {
         fontSize: 14,

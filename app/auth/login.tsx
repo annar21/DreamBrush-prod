@@ -1,25 +1,37 @@
-import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from 'expo-router';
+import { auth } from '../../services/firebase';
+import api from '../../services/api';
+import Button from '@/components/Button';
+import Input from '@/components/Input';
 
-export default function ResetPassword() {
+export default function Login() {
     const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
+    const { login } = useAuth();
     const router = useRouter();
 
-    const handleResetPassword = async () => {
+    const handleLogin = async () => {
         setLoading(true);
         setError('');
-        setMessage('');
         try {
-            // Assuming there's a resetPassword method in useAuth
-            // await resetPassword(email);
-            setMessage('Reset link sent! Check your email.');
-        } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to send reset link. Please try again.';
+            // Authenticate with Firebase
+            await login(email, password);
+            const user = auth.currentUser;
+            const idToken = await user?.getIdToken();
+
+            // Send ID token to backend
+            const response = await api.post('/auth/login', { idToken });
+            console.log('Backend response:', response.data);
+
+            // Navigate to main app
+            router.replace('/(tabs)');
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : 'Failed to login. Please try again.';
             setError(errorMessage);
         }
         setLoading(false);
@@ -27,36 +39,39 @@ export default function ResetPassword() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Reset Password</Text>
-            <Text style={styles.subtitle}>Enter your email to receive a reset link.</Text>
+            <Text style={styles.title}>Sign In</Text>
+            <Text style={styles.subtitle}>Enter your credentials to access your account.</Text>
 
-            <TextInput
-                style={styles.input}
+            <Input
                 placeholder="Email address"
-                placeholderTextColor="#999"
-                value="dfsgdsgdsg"
+                value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
             />
 
-            <TouchableOpacity
-                style={styles.actionButton}
-                onPress={handleResetPassword}
-                disabled={loading}
-            >
-                <Text style={styles.actionButtonText}>SEND RESET LINK</Text>
-            </TouchableOpacity>
+            <Input
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                autoCapitalize="none"
+            />
+
+            <Button title="SIGN IN" onPress={handleLogin} disabled={loading} />
 
             <View style={styles.signInContainer}>
-                <Text style={styles.signInText}>Back to </Text>
-                <TouchableOpacity onPress={() => router.push('/auth/login')}>
-                    <Text style={styles.signInLink}>Sign In</Text>
-                </TouchableOpacity>
+                <Text style={styles.signInText}>Don't have an account? </Text>
+                <Text style={styles.signInLink} onPress={() => router.push('/auth/register')}>
+                    Sign Up
+                </Text>
             </View>
-sdfdsf
+
+            <Text style={styles.signInLink} onPress={() => router.push('/auth/reset-password')}>
+                Forgot Password?
+            </Text>
+
             {loading && <ActivityIndicator size="large" color="#6200EE" style={styles.loading} />}
-            {message && <Text style={styles.successText}>{message}</Text>}
             {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
     );
@@ -81,33 +96,10 @@ const styles = StyleSheet.create({
         color: '#666',
         marginBottom: 24,
     },
-    input: {
-        backgroundColor: '#F5F6FA',
-        borderRadius: 8,
-        paddingVertical: 10,
-        paddingHorizontal: 14,
-        marginBottom: 16,
-        fontSize: 16,
-        color: '#000',
-        height: 44,
-        width: '100%',
-    },
-    actionButton: {
-        backgroundColor: '#6200EE',
-        borderRadius: 25,
-        paddingVertical: 15,
-        alignItems: 'center',
-        height: 50,
-        marginBottom: 16,
-    },
-    actionButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: '700',
-    },
     signInContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+        marginBottom: 16,
     },
     signInText: {
         fontSize: 14,
@@ -121,12 +113,6 @@ const styles = StyleSheet.create({
     },
     loading: {
         marginTop: 16,
-    },
-    successText: {
-        color: 'green',
-        fontSize: 14,
-        marginTop: 16,
-        textAlign: 'center',
     },
     errorText: {
         color: 'red',
