@@ -1,10 +1,12 @@
-import { router, useLocalSearchParams } from "expo-router";
+import { useRoute } from "@react-navigation/native";
+import { router, useLocalSearchParams, usePathname } from "expo-router";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default function StyleDetail() {
   const { title } = useLocalSearchParams();
-  
+  // console.log(useRoute().name)
+  // console.log(usePathname())
 
   return (
     <View style={{backgroundColor: '#F1F4F9', flex: 1}}>

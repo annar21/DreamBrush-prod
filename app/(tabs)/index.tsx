@@ -36,22 +36,22 @@ export default function HomeScreen() {
     );
 
     // Handle navigation for the user/profile icon
-    const handleUserIconPress = () => {
-        if (user) {
-            router.push('/profile'); // Navigate to Profile if user is authenticated
-        } else {
-            router.push('/auth/login'); // Navigate to Login if user is not authenticated
-        }
-    };
+    // const handleUserIconPress = () => {
+    //     if (user) {
+    //         router.push('/profile'); // Navigate to Profile if user is authenticated
+    //     } else {
+    //         router.push('/auth/login'); // Navigate to Login if user is not authenticated
+    //     }
+    // };
 
     // Handle navigation for the UPGRADE button
-    const handleUpgradePress = () => {
-        router.push('/subscription'); // Navigate to Subscription page
-    };
+    // const handleUpgradePress = () => {
+    //     router.push('/subscription'); // Navigate to Subscription page
+    // };
 
     // Handle navigation for the SEE ALL button
     const handleSeeAllPress = () => {
-        router.push('/explore'); // Navigate to Gallery page
+        router.push('/(tabs)/(explore)'); // Navigate to Gallery page
     };
 
     return (
