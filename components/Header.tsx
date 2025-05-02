@@ -1,14 +1,17 @@
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { useRoute } from '@react-navigation/native'
 import UpgradePlanModal from './UpgradePlanModal'
+import { router } from 'expo-router'
 
 const Header = () => {
   const route = useRoute();
   const [visible, setVisible] = useState<boolean>(false);
 
-  if(route.name === '/(tabs)/(explore)/style') return null;
+  if(route.name === '(explore)/style' || route.name === '(profile)/edit') return null;
+
+  // useEffect(() => {console.log(route.name)}, [route])
 
   return (
     <View style={{backgroundColor: '#fff', paddingBottom: 10, paddingHorizontal: 15, paddingTop: 40, }}>
@@ -35,7 +38,7 @@ const Header = () => {
           <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#F1F5F8', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity 
               style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}} 
-              onPress={() => {}}
+              onPress={() => router.push('/(tabs)/(profile)/index')}
             >
               <Icon name="user" size={20} />
             </TouchableOpacity>
@@ -46,7 +49,7 @@ const Header = () => {
 
       </View>
 
-      {route.name === '/(tabs)/explore' && (
+      {route.name === '(explore)/explore' && (
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
           <View style={{width: '85%'}}>
             <TextInput 
@@ -54,9 +57,9 @@ const Header = () => {
               style={{backgroundColor: '#F1F4F9', paddingLeft: 10, borderRadius: 15, paddingVertical: 15}}
             />
           </View>
-          <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#6B5FF0', justifyContent: 'center', alignItems: 'center', marginLeft: 10}}>
+          <TouchableOpacity style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#6B5FF0', justifyContent: 'center', alignItems: 'center', marginLeft: 10}}>
             <Icon name="search" size={18} color="white" />
-          </View>
+          </TouchableOpacity>
         </View>
       )}
 

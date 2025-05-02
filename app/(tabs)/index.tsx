@@ -1,5 +1,5 @@
 // app/(tabs)/index.tsx
-import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'; // For background gradient
 import { router } from 'expo-router'; // Use expo-router for navigation
@@ -75,17 +75,23 @@ export default function HomeScreen() {
                 </TouchableOpacity>
             </View> */}
 
-            <View style={{borderWidth: 1, borderColor: 'lightgray', flexDirection: 'row', alignItems: 'center', padding: 5, borderRadius: 5, justifyContent: 'space-between', backgroundColor: '#fff', marginBottom: 20 }}>
-                <TextInput 
-                    placeholder='Enter an image prompt...'
-                    style={{maxWidth: '80%', maxHeight: 40}}
-                    value={prompt}
-                    onChangeText={setPrompt}
-                />
-                <TouchableOpacity style={styles.generateButton}>
-                    <Icon name='chevron-right' size={20} color='white' style={{position: 'relative', left: 2}} />
-                </TouchableOpacity>
-            </View>
+            <Pressable onPress={() => router.push('/(tabs)/generate')}>
+							<View 
+									style={{borderWidth: 1, borderColor: 'lightgray', flexDirection: 'row', alignItems: 'center', padding: 5, borderRadius: 5, justifyContent: 'space-between', backgroundColor: '#fff', marginBottom: 20 }}
+									
+							>
+									<TextInput 
+											placeholder='Enter an image prompt...'
+											style={{maxWidth: '80%', maxHeight: 40}}
+											value={prompt}
+											onChangeText={setPrompt}
+											editable={false}
+									/>
+									<TouchableOpacity style={styles.generateButton} onPress={() => router.push('/(tabs)/generate')}>
+											<Icon name='chevron-right' size={20} color='white' style={{position: 'relative', left: 2}} />
+									</TouchableOpacity>
+							</View>
+						</Pressable>
 
             {/* Recent Images Section */}
             <View style={styles.recentImagesHeader}>
