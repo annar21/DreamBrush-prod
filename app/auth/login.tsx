@@ -2,7 +2,7 @@ import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet 
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { Ionicons } from '@expo/vector-icons';
-import {Link, useRouter} from "expo-router/build/rsc/exports";
+import {Link, useRouter} from "expo-router";
 
 export default function Login() {
     const [email, setEmail] = useState('');

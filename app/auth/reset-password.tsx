@@ -1,7 +1,7 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import axios from 'axios';
-import {Link, useLocalSearchParams, useRouter} from "expo-router/build/rsc/exports";
+import {Link, useLocalSearchParams, useRouter} from "expo-router";
 
 export default function ResetPassword() {
     const [emailOrPassword, setEmailOrPassword] = useState('');
