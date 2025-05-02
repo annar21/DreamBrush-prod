@@ -1,36 +1,31 @@
-import { useState, useEffect } from 'react';
-import { auth } from '../services/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { useRouter } from 'expo-router';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from './useAppDispatch'; // Use typed dispatch
+import { login, register, logout } from '../store/authSlice';
+import { RootState } from '../store'; // Import RootState
 
 export const useAuth = () => {
-    const [user, setUser] = useState<any>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const { user, token, loading, error } = useSelector((state: RootState) => state.auth);
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            setUser(user);
-            setLoading(false);
-        });
-        return unsubscribe;
-    }, []);
-
-    const register = async (email: string, password: string) => {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        setUser(userCredential.user);
+    const signIn = async (email: string, password: string) => {
+        await dispatch(login({ email, password })).unwrap();
     };
 
-    const login = async (email: string, password: string) => {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        setUser(userCredential.user);
+    const signUp = async (email: string, password: string) => {
+        await dispatch(register({ email, password })).unwrap();
     };
 
-    const logout = async () => {
-        await signOut(auth);
-        setUser(null);
-        router.replace('/auth/login');
+    const signOut = () => {
+        dispatch(logout());
     };
 
-    return { user, loading, register, login, logout };
+    return {
+        user,
+        token,
+        loading,
+        error,
+        signIn,
+        signUp,
+        signOut,
+    };
 };

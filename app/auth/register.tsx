@@ -1,30 +1,33 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import {Link, useRouter} from "expo-router/build/rsc/exports";
 
 export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [secureText, setSecureText] = useState(true);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [secureText, setSecureText] = useState(true);
-    const { register } = useAuth();
+    const { signUp, user } = useAuth();
     const router = useRouter();
 
     const handleRegister = async () => {
         setLoading(true);
         setError('');
         try {
-            await register(email, password);
+            await signUp(email, password);
             router.replace('/(tabs)');
-        } catch (err: unknown) {
-            const errorMessage = err instanceof Error ? err.message : 'Registration failed. Please try again.';
-            setError(errorMessage);
+        } catch (err: any) {
+            setError(err.message || 'Registration failed. Please try again.');
         }
         setLoading(false);
     };
+
+    if (user) {
+        router.replace('/(tabs)');
+    }
 
     return (
         <View style={styles.container}>
@@ -50,23 +53,12 @@ export default function Register() {
                     onChangeText={setPassword}
                     secureTextEntry={secureText}
                 />
-                <TouchableOpacity
-                    style={styles.eyeIcon}
-                    onPress={() => setSecureText(!secureText)}
-                >
-                    <Ionicons
-                        name={secureText ? 'eye-off' : 'eye'}
-                        size={20}
-                        color="#999"
-                    />
+                <TouchableOpacity style={styles.eyeIcon} onPress={() => setSecureText(!secureText)}>
+                    <Ionicons name={secureText ? 'eye-off' : 'eye'} size={20} color="#999" />
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-                style={styles.createButton}
-                onPress={handleRegister}
-                disabled={loading}
-            >
+            <TouchableOpacity style={styles.createButton} onPress={handleRegister} disabled={loading}>
                 <Text style={styles.createButtonText}>CREATE ACCOUNT</Text>
             </TouchableOpacity>
 
@@ -77,9 +69,11 @@ export default function Register() {
 
             <View style={styles.signInContainer}>
                 <Text style={styles.signInText}>Already have an account? </Text>
-                <TouchableOpacity onPress={() => router.push('/auth/login')}>
-                    <Text style={styles.signInLink}>Sign in</Text>
-                </TouchableOpacity>
+                <Link href="/auth/login" asChild>
+                    <TouchableOpacity>
+                        <Text style={styles.signInLink}>Sign in</Text>
+                    </TouchableOpacity>
+                </Link>
             </View>
 
             {loading && <ActivityIndicator size="large" color="#6200EE" style={styles.loading} />}
@@ -115,21 +109,21 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#000',
         height: 44,
-        width: '100%', // Ensure full width
+        width: '100%',
     },
     passwordContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 16,
         height: 44,
-        width: '100%', // Ensure the container takes full width
+        width: '100%',
         position: 'relative',
     },
     eyeIcon: {
         position: 'absolute',
         right: 14,
         top: '50%',
-        transform: [{ translateY: -10 }], // Center vertically (half of icon height)
+        transform: [{ translateY: -10 }],
     },
     createButton: {
         backgroundColor: '#6200EE',
