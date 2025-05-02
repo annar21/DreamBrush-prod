@@ -17,13 +17,13 @@ export default function TabLayout() {
     // return (
 
     return (
-        <Tabs 
+        <Tabs
             screenOptions={{
                 header: () => <Header />,
                 // tabBarActiveTintColor: '#6f61ef',
                 // tabBarInactiveTintColor: '#8d90a7'
-            }} 
-            tabBar={(props) => <BottomTabBar {...props} />}
+            }}
+            tabBar={(props: any) => <BottomTabBar {...props} />}
         >
             <Tabs.Screen name="index" options={{ title: 'Home' }} />
             <Tabs.Screen name="(explore)" options={{ title: 'Explore' }} />
