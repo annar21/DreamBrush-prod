@@ -34,7 +34,7 @@ const ProfilePage = () => {
       </View>
 
         <View style={{marginTop: 25, gap: 10}}>
-          <ProfileLink title='Edit Profile' icon={() => <Text>Icon</Text>} onPress={() => {router.push('/(tabs)/(profile)/edit')}} />
+          <ProfileLink title='Edit Profile' icon={() => <Text>Icon</Text>} onPress={() => {router.push('/(tabs)/(profile)/screens/edit')}} />
           <ProfileLink title='Share' icon={() => <Text>Icon</Text>} onPress={() => {}} />
           <ProfileLink title='Leave a Review' icon={() => <Text>Icon</Text>} onPress={() => {}} />
           <ProfileLink title='Legal' icon={() => <Text>Icon</Text>} onPress={() => {}} />

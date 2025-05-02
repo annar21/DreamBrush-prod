@@ -25,7 +25,7 @@ const StyleCard = ({image, title, redirect=true, onPress, additionalStyle, textA
       onPress={() => {
         if(redirect) {
           router.push({
-            pathname: '/(tabs)/(explore)/style',
+            pathname: '/(tabs)/(explore)/screens/style',
             params: {title}
           });
         }

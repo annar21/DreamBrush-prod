@@ -1,24 +1,42 @@
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import { useRoute } from '@react-navigation/native'
+// import { useRoute } from '@react-navigation/native'
+
 import UpgradePlanModal from './UpgradePlanModal'
-import { router } from 'expo-router'
+import { router, usePathname } from 'expo-router'
+import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native'
 
 const Header = () => {
-  const route = useRoute();
+  // const route = useRoute();
   const [visible, setVisible] = useState<boolean>(false);
+  const route = useRoute();
+  const pathname = usePathname();
 
-  if(route.name === '(explore)/style' || route.name === '(profile)/edit') return null;
+  // if(route.name === '(explore)/style' || route.name === '(profile)/screens/edit' || route.name === '/(tabs)/(albums)/screens/album-detail') return null;
+  // switch(pathname) {
+  //   case 'screens/style':
+  //     return null;
+  // }
+  // useEffect(() => {console.log(route.name)}, [route.name]);
 
-  // useEffect(() => {console.log(route.name)}, [route])
+  const hiddenPaths = [
+    '/screens/style',
+    '/screens/edit',
+    '/screens/album-detail',
+  ];
 
+  useEffect(() => {
+    console.log('Pathname:', pathname);
+  }, [pathname]);
+
+  if(hiddenPaths.includes(pathname)) return null;
   return (
     <View style={{backgroundColor: '#fff', paddingBottom: 10, paddingHorizontal: 15, paddingTop: 40, }}>
 
       <View style={{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',}}>
         <View>
-          <Text style={{fontSize: 20, fontWeight: 700}}>{route.name === '(tabs)/albums' ? 'Albums' : 'DreamBrush'}</Text>
+          <Text style={{fontSize: 20, fontWeight: 700}}>DreamBrush</Text>
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -38,7 +56,9 @@ const Header = () => {
           <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#F1F5F8', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity 
               style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}} 
-              onPress={() => router.push('/(tabs)/(profile)/index')}
+              onPress={() => {
+                if(route.name !== "(profile)") router.push('/(tabs)/(profile)')
+              }}
             >
               <Icon name="user" size={20} />
             </TouchableOpacity>
@@ -49,7 +69,7 @@ const Header = () => {
 
       </View>
 
-      {route.name === '(explore)/explore' && (
+      {route.name === '(explore)' && (
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
           <View style={{width: '85%'}}>
             <TextInput 

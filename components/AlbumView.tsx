@@ -2,16 +2,19 @@ import { View, Text, Touchable, TouchableOpacity } from "react-native";
 
 interface AlbumViewProps {
   title: string;
+  onPress: () => void;
 }
 
-export default function AlbumView({title}: AlbumViewProps) {
+export default function AlbumView({title, onPress}: AlbumViewProps) {
   return (
-    <TouchableOpacity>
-      <View style={{width: '48%', aspectRatio: 1, borderRadius: 10, padding: '5%', justifyContent: 'center', alignItems: 'center', position: 'relative', backgroundColor: "#fff"}}>
-        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10%'}}>
-          <View style={{width: '45%', aspectRatio: 1, backgroundColor: '#F1F4F9', borderRadius: 5}}></View>
-          <View style={{width: '45%', aspectRatio: 1, backgroundColor: '#F1F4F9', borderRadius: 5}}></View>
-          <View style={{width: '45%', aspectRatio: 1, backgroundColor: '#F1F4F9', borderRadius: 5}}></View>
+    <TouchableOpacity
+      onPress={onPress}
+    >
+      <View style={{width: '48%', aspectRatio: 1, borderRadius: 10, padding: '2%', justifyContent: 'center', alignItems: 'center', position: 'relative', backgroundColor: "#fff"}}>
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '4%'}}>
+          <View style={{width: '48%', aspectRatio: 1, backgroundColor: '#F1F4F9', borderRadius: 5}}></View>
+          <View style={{width: '48%', aspectRatio: 1, backgroundColor: '#F1F4F9', borderRadius: 5}}></View>
+          <View style={{width: '48%', aspectRatio: 1, backgroundColor: '#F1F4F9', borderRadius: 5}}></View>
         </View>
 
         {/* <View style={{position: 'absolute', top: '50%', left: '50%', transform: [{ translateX: '-50%' }, { translateY: '-50%' }], display: 'flex', justifyContent: 'center', alignItems: 'center',}}>

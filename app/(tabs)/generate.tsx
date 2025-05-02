@@ -2,7 +2,7 @@ import SizeRadio from "@/components/SizeRadio";
 import StyleCard from "@/components/StyleCard";
 import UpgradePlanModal from "@/components/UpgradePlanModal";
 import { useEffect, useRef, useState } from "react";
-import { View, Text, TextInput, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, ScrollView, TouchableOpacity, Keyboard } from "react-native";
 
 export default function GenerateScreen() {
   const styles = ["style1", "style2", "style3", "style4", "style5", "style6"];
@@ -14,7 +14,11 @@ export default function GenerateScreen() {
   useEffect(() => {inputRef?.current?.focus()}, [])
 
   const onPress = (style: string) => {
-    setSelectedStyle(style);
+    if(selectedStyle === style) {
+      setSelectedStyle(null);
+    } else {
+      setSelectedStyle(style);
+    }
   }
 
   return (
@@ -32,6 +36,11 @@ export default function GenerateScreen() {
           }}
           placeholder="Enter an image prompt..."
           multiline
+          keyboardType="default"
+          returnKeyType="done" 
+          // onSubmitEditing={() => {
+          //   inputRef.current?.blur();  // Manually blur the input to close the keyboard
+          // }}    
         />
       </View>
 
@@ -54,7 +63,7 @@ export default function GenerateScreen() {
 
       <View style={{marginTop: 35}}>
         <Text style={{color: '#8D90A7', fontSize: 16, fontWeight: 500, marginBottom: 10}}>Image Size</Text>
-        <SizeRadio 
+      <SizeRadio 
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
