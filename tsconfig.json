@@ -6,17 +6,12 @@
       "@/*": [
         "./*"
       ]
-    },
-    "moduleResolution": "node",
-    "jsx": "react-native",
-    "types": ["expo-router", "nativewind/types"],
-    "noEmit": true
+    }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts",
-    "types.d.ts"
+    "expo-env.d.ts"
   ]
 }
