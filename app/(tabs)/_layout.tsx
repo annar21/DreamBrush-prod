@@ -7,9 +7,9 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import Header from '@/components/Header';
-import BottomTabBar from '@/components/BottomTabBar';
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import Header from "@/components/Header";
+import BottomTabBar from "@/components/BottomTabBar";
 
 export default function TabLayout() {
     // const colorScheme = useColorScheme();
@@ -25,7 +25,7 @@ export default function TabLayout() {
             }}
             tabBar={(props: any) => <BottomTabBar {...props} />}
         >
-            <Tabs.Screen name="index" options={{ title: 'Home' }} />
+            <Tabs.Screen key="index" name="index" options={{ title: 'Home' }} />
             <Tabs.Screen name="(explore)" options={{ title: 'Explore' }} />
             <Tabs.Screen name="generate" options={{ title: 'Generate' }} />
             <Tabs.Screen name="(albums)" options={{ title: 'Albums' }} />

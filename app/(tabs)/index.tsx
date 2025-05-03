@@ -3,8 +3,8 @@ import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet, P
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'; // For background gradient
 import { router } from 'expo-router'; // Use expo-router for navigation
-import { useAuth } from '../../hooks/useAuth'; // Import useAuth for authentication
-import Icon from 'react-native-vector-icons/FontAwesome5'; // For icons
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useAuth} from "@/hooks/useAuth"; // For icons
 
 // Define the type for an image item
 interface ImageItem {
@@ -76,11 +76,11 @@ export default function HomeScreen() {
             </View> */}
 
             <Pressable onPress={() => router.push('/(tabs)/generate')}>
-							<View 
+							<View
 									style={{borderWidth: 1, borderColor: 'lightgray', flexDirection: 'row', alignItems: 'center', padding: 5, borderRadius: 5, justifyContent: 'space-between', backgroundColor: '#fff', marginBottom: 20 }}
-									
+
 							>
-									<TextInput 
+									<TextInput
 											placeholder='Enter an image prompt...'
 											style={{maxWidth: '80%', maxHeight: 40}}
 											value={prompt}
@@ -96,7 +96,7 @@ export default function HomeScreen() {
             {/* Recent Images Section */}
             <View style={styles.recentImagesHeader}>
                 <Text style={styles.sectionTitle}>Recent Images</Text>
-                <TouchableOpacity onPress={handleSeeAllPress} style={{flexDirection: 'row', alignItems: 'center', gap:5}}> 
+                <TouchableOpacity onPress={handleSeeAllPress} style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
                     <Text style={styles.seeAllText}>SEE ALL</Text>
                     <Icon name="chevron-right" size={12} color="#6200ea" />
                 </TouchableOpacity>

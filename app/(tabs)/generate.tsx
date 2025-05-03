@@ -1,8 +1,8 @@
-import SizeRadio from "@/components/SizeRadio";
-import StyleCard from "@/components/StyleCard";
-import UpgradePlanModal from "@/components/UpgradePlanModal";
 import { useEffect, useRef, useState } from "react";
 import { View, Text, TextInput, ScrollView, TouchableOpacity, Keyboard } from "react-native";
+import StyleCard from "@/components/StyleCard";
+import SizeRadio from "@/components/SizeRadio";
+import UpgradePlanModal from "@/components/UpgradePlanModal";
 
 export default function GenerateScreen() {
   const styles = ["style1", "style2", "style3", "style4", "style5", "style6"];
@@ -25,11 +25,11 @@ export default function GenerateScreen() {
     <ScrollView contentContainerStyle={{backgroundColor: '#F1F4F9', paddingTop: 25, paddingHorizontal: 20}}>
       <View>
         <Text style={{fontSize: 22, fontWeight: 600, marginBottom: 15}}>Generate an AI image</Text>
-        <TextInput 
+        <TextInput
           ref={inputRef}
           style={{
             backgroundColor: '#fff',
-            height: 150, 
+            height: 150,
             verticalAlign: 'top',
             borderRadius: 5,
             paddingLeft: 10
@@ -37,39 +37,39 @@ export default function GenerateScreen() {
           placeholder="Enter an image prompt..."
           multiline
           keyboardType="default"
-          returnKeyType="done" 
+          returnKeyType="done"
           // onSubmitEditing={() => {
           //   inputRef.current?.blur();  // Manually blur the input to close the keyboard
-          // }}    
+          // }}
         />
       </View>
 
       <View style={{marginTop: 25}}>
         <Text style={{color: '#8D90A7', fontSize: 16, fontWeight: 500, marginBottom: 10}}>Image style {"(Optional)"}</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{flexDirection: 'row', gap: 10}}>
-          {styles.map((style) => 
-            <StyleCard 
+          {styles.map((style) =>
+            <StyleCard
               key={style}
-              redirect={false} 
-              title={style} 
+              redirect={false}
+              title={style}
               image={() => <View style={{width: 100, height: 100, backgroundColor: 'red'}} />}
-              onPress={() => onPress(style)} 
+              onPress={() => onPress(style)}
               additionalStyle={ style === selectedStyle && {borderWidth: 1, borderColor: '#6B5FF0', backgroundColor: '#D5D3F8'} }
               textAdditionalStyle={ style === selectedStyle && {color: '#6B5FF0'} }
-            /> 
+            />
           )}
         </ScrollView>
       </View>
 
       <View style={{marginTop: 35}}>
         <Text style={{color: '#8D90A7', fontSize: 16, fontWeight: 500, marginBottom: 10}}>Image Size</Text>
-      <SizeRadio 
+      <SizeRadio
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
         />
       </View>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={{marginTop: 30, padding: 10, backgroundColor: '#D5D3F8', borderRadius: 40}}
           onPress={() => setVisible(true)}
       >
@@ -83,10 +83,10 @@ export default function GenerateScreen() {
       </TouchableOpacity>
 
       <Text style={{textAlign: 'center', color: '#8D90A7', fontWeight: 500, marginTop: 10, marginBottom: 25}}>10/10 Images Remaining This Week</Text>
-      
-      
-      
+
+
+
       <UpgradePlanModal visible={visible} setVisible={setVisible} />
-    </ScrollView> 
+    </ScrollView>
   );
 }

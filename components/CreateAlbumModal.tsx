@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, Touchable, TouchableOpacity } from 'react-native';
-import DraggableBottomModal from '@/components/DraggableBottomModal';
+import DraggableBottomModal from './DraggableBottomModal';
 
 interface CreateAlbumModalProps {
     visible: boolean;
