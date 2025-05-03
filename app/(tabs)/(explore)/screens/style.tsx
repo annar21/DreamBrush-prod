@@ -24,7 +24,7 @@ export default function StyleDetail() {
         </View>
 
         <TouchableOpacity>
-          <Icon name="share-alt" size={20} color="#000" iconStyle="solid"/>
+          <Icon name="share-alt" size={20} color="#000"/>
         </TouchableOpacity>
       </View>
       <ScrollView style={{backgroundColor: '#F1F4F9'}}>
