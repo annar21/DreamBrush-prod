@@ -26,9 +26,9 @@ const Header = () => {
     '/screens/album-detail',
   ];
 
-  // useEffect(() => {
-  //   console.log('Pathname:', pathname);
-  // }, [pathname]);
+  useEffect(() => {
+    console.log('Pathname:', pathname);
+  }, [pathname]);
 
   if(hiddenPaths.includes(pathname)) return null;
   return (
@@ -44,7 +44,7 @@ const Header = () => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 15}}>
             <View>
               {/* <Icon name="star" size={25} color="#333" /> */}
-            </View> 
+            </View>
 
             <View style={{backgroundColor: '#E4DFFD', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20}}>
               <TouchableOpacity style={{width: '100%', justifyContent: 'center', alignItems: 'center'}} onPress={() => setVisible(true) }>
@@ -54,8 +54,8 @@ const Header = () => {
           </View>
 
           <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#F1F5F8', justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity 
-              style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}} 
+            <TouchableOpacity
+              style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}}
               onPress={() => {
                 if(route.name !== "(profile)") router.push('/(tabs)/(profile)')
               }}
@@ -72,7 +72,7 @@ const Header = () => {
       {route.name === '(explore)' && (
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
           <View style={{width: '85%'}}>
-            <TextInput 
+            <TextInput
               placeholder='Search...'
               style={{backgroundColor: '#F1F4F9', paddingLeft: 10, borderRadius: 15, paddingVertical: 15}}
             />

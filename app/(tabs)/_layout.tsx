@@ -6,9 +6,9 @@ import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
-import Header from '@/components/Header';
-import BottomTabBar from '@/components/BottomTabBar';
-// import Icon from 'react-native-vector-icons/FontAwesome5'
+import Icon from 'react-native-vector-icons/FontAwesome5'
+import Header from "@/components/Header";
+import BottomTabBar from "@/components/BottomTabBar";
 
 export default function TabLayout() {
     // const colorScheme = useColorScheme();

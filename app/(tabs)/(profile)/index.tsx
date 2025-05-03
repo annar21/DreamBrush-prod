@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { router } from 'expo-router';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View, Text} from 'react-native';
 import ProfileLink from "@/components/ProfileLink";
 
 

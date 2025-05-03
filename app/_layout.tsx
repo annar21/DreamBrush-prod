@@ -1,65 +1,109 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState, createContext, useContext } from 'react';
 import 'react-native-reanimated';
-import { useSelector } from 'react-redux';
-import { Provider } from 'react-redux';
+import { useSelector, Provider } from 'react-redux';
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { validateToken } from "@/store/authSlice";
+import store from "@/store";
 
-// SplashScreen.preventAutoHideAsync();
+// Prevent splash screen auto-hide
+SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-    // const colorScheme = useColorScheme();
-    // const [loaded] = useFonts({
-    //     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    // });
-    // const { user } = useSelector((state: any) => state.auth);
-    // const dispatch = useAppDispatch();
+// Create AuthContext
+interface AuthContextType {
+    isAuthenticated: boolean;
+    isLoading: boolean;
+}
 
-    // useEffect(() => {
-    //     const loadToken = async () => {
-    //         try {
-    //             await dispatch(validateToken()).unwrap();
-    //         } catch (err) {
-    //             // Token validation failed; no action needed since token is cleared in thunk
-    //         } finally {
-    //             if (loaded) {
-    //                 SplashScreen.hideAsync();
-    //             }
-    //         }
-    //     };
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-    //     if (loaded) {
-    //         loadToken();
-    //     }
-    // }, [loaded, dispatch]);
+// AuthProvider Component
+function AuthProvider({ children }: { children: React.ReactNode }) {
+    const [isLoading, setIsLoading] = useState(true);
+    const { user } = useSelector((state: any) => state.auth);
+    const dispatch = useAppDispatch();
 
-    // if (!loaded) {
-    //     return null;
-    // }
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                await dispatch(validateToken()).unwrap();
+            } catch (err) {
+                // Token validation failed
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, [dispatch]);
 
     return (
-        // <Provider store={store}>
-        //     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        //         <Stack screenOptions={{ headerShown: false }}>
-        //             {user ? (
-        //                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        //             ) : (
-        //                 <>
-        //                     <Stack.Screen name="auth/login" options={{ headerShown: false }} />
-        //                     <Stack.Screen name="auth/register" options={{ headerShown: false }} />
-        //                     <Stack.Screen name="auth/reset-password" options={{ headerShown: false }} />
-        //                 </>
-        //             )}
-        //             <Stack.Screen name="+not-found" />
-        //         </Stack>
-        //         <StatusBar style="auto" />
-        //     </ThemeProvider>
-        // </Provider>
-        <Stack screenOptions={{headerShown: false}}>
-            <Stack.Screen name="(tabs)" />
-        </Stack>
+        <AuthContext.Provider value={{ isAuthenticated: !!user, isLoading }}>
+            {children}
+        </AuthContext.Provider>
+    );
+}
+
+// Hook to use auth context
+function useAuth() {
+    const context = useContext(AuthContext);
+    if (context === undefined) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+}
+
+// RootLayout Component
+export default function RootLayout() {
+    const [loaded] = useFonts({
+        SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    });
+
+    useEffect(() => {
+        if (loaded) {
+            SplashScreen.hideAsync();
+        }
+    }, [loaded]);
+
+    if (!loaded) {
+        return null;
+    }
+
+    return (
+        <Provider store={store}>
+            <AuthProvider>
+                <ProtectedLayout />
+            </AuthProvider>
+        </Provider>
+    );
+}
+
+// ProtectedLayout Component
+function ProtectedLayout() {
+    const { isAuthenticated, isLoading } = useAuth();
+
+    if (isLoading) {
+        return null; // Or a loading component
+    }
+
+    return (
+        <>
+            <Stack screenOptions={{ headerShown: false }}>
+                {isAuthenticated ? (
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                ) : (
+                    [
+                        <Stack.Screen key="login" name="auth/login" options={{ headerShown: false }} />,
+                        <Stack.Screen key="register" name="auth/register" options={{ headerShown: false }} />,
+                        <Stack.Screen key="reset-password" name="auth/reset-password" options={{ headerShown: false }} />,
+                    ]
+                )}
+                <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+        </>
     );
 }

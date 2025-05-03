@@ -3,7 +3,8 @@ import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet, P
 import { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient'; // For background gradient
 import { router } from 'expo-router'; // Use expo-router for navigation
-import Icon from 'react-native-vector-icons/FontAwesome5'; // For icons
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {useAuth} from "@/hooks/useAuth"; // For icons
 
 // Define the type for an image item
 interface ImageItem {
@@ -14,7 +15,7 @@ interface ImageItem {
 
 export default function HomeScreen() {
     const [prompt, setPrompt] = useState<string>('');
-    // const { user } = useAuth(); // Get the current user from useAuth
+    const { user } = useAuth(); // Get the current user from useAuth
 
     // Import images from assets
     const recentImages: ImageItem[] = [
