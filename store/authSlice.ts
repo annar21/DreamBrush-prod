@@ -60,6 +60,7 @@ export const validateToken = createAsyncThunk<AuthResponse, void, { rejectValue:
     async (_, { rejectWithValue }) => {
         try {
             const token = await AsyncStorage.getItem('token');
+            console.log(token)
             if (!token) throw new Error('No token found');
             const response = await axios.get<AuthResponse>('http://your-backend-url/api/protected', {
                 headers: { Authorization: `Bearer ${token}` },
