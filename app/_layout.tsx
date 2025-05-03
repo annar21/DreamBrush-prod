@@ -7,56 +7,59 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 import { Provider } from 'react-redux';
-import {useAppDispatch} from "@/hooks/useAppDispatch";
-import {validateToken} from "@/store/authSlice";
-import store from "@/store";
 
 // SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-    const [loaded] = useFonts({
-        SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    });
-    const { user } = useSelector((state: any) => state.auth);
-    const dispatch = useAppDispatch();
+    // const colorScheme = useColorScheme();
+    // const [loaded] = useFonts({
+    //     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    // });
+    // const { user } = useSelector((state: any) => state.auth);
+    // const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        const loadToken = async () => {
-            try {
-                await dispatch(validateToken()).unwrap();
-            } catch (err) {
-                // Token validation failed; no action needed since token is cleared in thunk
-            } finally {
-                if (loaded) {
-                    SplashScreen.hideAsync();
-                }
-            }
-        };
+    // useEffect(() => {
+    //     const loadToken = async () => {
+    //         try {
+    //             await dispatch(validateToken()).unwrap();
+    //         } catch (err) {
+    //             // Token validation failed; no action needed since token is cleared in thunk
+    //         } finally {
+    //             if (loaded) {
+    //                 SplashScreen.hideAsync();
+    //             }
+    //         }
+    //     };
 
-        if (loaded) {
-            loadToken();
-        }
-    }, [loaded, dispatch]);
+    //     if (loaded) {
+    //         loadToken();
+    //     }
+    // }, [loaded, dispatch]);
 
-    if (!loaded) {
-        return null;
-    }
+    // if (!loaded) {
+    //     return null;
+    // }
 
     return (
-        <Provider store={store}>
-            <Stack screenOptions={{ headerShown: false }}>
-                {user ? (
-                    <Stack.Screen key="tabs" name="(tabs)" options={{ headerShown: false }} />
-                ) : (
-                    [
-                        <Stack.Screen key="login" name="auth/login" options={{ headerShown: false }} />,
-                        <Stack.Screen key="register" name="auth/register" options={{ headerShown: false }} />,
-                        <Stack.Screen key="reset-password" name="auth/reset-password" options={{ headerShown: false }} />,
-                    ]
-                )}
-                <Stack.Screen key="not-found" name="+not-found" />
-            </Stack>
-            <StatusBar style="auto" />
-        </Provider>
+        // <Provider store={store}>
+        //     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        //         <Stack screenOptions={{ headerShown: false }}>
+        //             {user ? (
+        //                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        //             ) : (
+        //                 <>
+        //                     <Stack.Screen name="auth/login" options={{ headerShown: false }} />
+        //                     <Stack.Screen name="auth/register" options={{ headerShown: false }} />
+        //                     <Stack.Screen name="auth/reset-password" options={{ headerShown: false }} />
+        //                 </>
+        //             )}
+        //             <Stack.Screen name="+not-found" />
+        //         </Stack>
+        //         <StatusBar style="auto" />
+        //     </ThemeProvider>
+        // </Provider>
+        <Stack screenOptions={{headerShown: false}}>
+            <Stack.Screen name="(tabs)" />
+        </Stack>
     );
 }
