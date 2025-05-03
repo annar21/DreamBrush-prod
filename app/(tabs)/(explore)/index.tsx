@@ -1,17 +1,17 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/FontAwesome5'
-import StyleCard from '@/components/StyleCard';
-import RadioButtons from '@/components/RadioButtons';
+import StyleCard from "@/components/StyleCard";
+import RadioButtons from "@/components/RadioButtons";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 
-// bg - F1F4F9, chevron-right   
+// bg - F1F4F9, chevron-right
 // dark purple - 6B5FF0
 // light purple - D5D3F8
-// dark gray - 5D6371 
+// dark gray - 5D6371
 // light gray - E5E5E7
-// 
+//
 
 const ExplorePage = () => {
   const [filter, setFilter] = React.useState<string | null>('TOP');
@@ -39,9 +39,9 @@ const ExplorePage = () => {
           <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
           <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
         </ScrollView>
-        
+
         <View style={{flexDirection: 'row', marginTop: 20}}>
-          <RadioButtons 
+          <RadioButtons
             options={['TOP', 'NEW']}
             selectedOption={filter}
             onSelect={(option) => setFilter(option)}

@@ -10,9 +10,9 @@ export default function EditProfile() {
 
   return (
     <View style={{ backgroundColor: '#fff', flex: 1, }}>
-      
-      <View style={{  paddingHorizontal: 20, paddingTop: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 15, backgroundColor: '#fff', borderRadius: 10, marginBottom: 10 }}>  
-        <TouchableOpacity onPress={() => router.back()}><Icon name="arrow-left" size={20} color="000" /></TouchableOpacity>
+
+      <View style={{  paddingHorizontal: 20, paddingTop: 40, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 15, backgroundColor: '#fff', borderRadius: 10, marginBottom: 10 }}>
+        <TouchableOpacity onPress={() => router.back()}><Icon name="arrow-left" size={20} color="000"/></TouchableOpacity>
         <View><Text style={{fontSize: 22, fontWeight: 500}}>Edit Profile</Text></View>
         <View></View>
       </View>
@@ -41,20 +41,20 @@ export default function EditProfile() {
 
         <View style={{gap: 15, marginTop: 30}}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <TextInput 
+            <TextInput
               placeholder='Name...'
               value={name}
               onChangeText={setName}
               style={{backgroundColor: '#F1F4F9', paddingLeft: 10, borderRadius: 15, paddingVertical: 15, width: '48%'}}
             />
-            <TextInput 
+            <TextInput
               placeholder='Surname...'
               value={surname}
               onChangeText={setSurname}
               style={{backgroundColor: '#F1F4F9', paddingLeft: 10, borderRadius: 15, paddingVertical: 15, width: '48%'}}
             />
           </View>
-          <TextInput 
+          <TextInput
             placeholder='Nickname...'
             value={nickname}
             onChangeText={setNickname}

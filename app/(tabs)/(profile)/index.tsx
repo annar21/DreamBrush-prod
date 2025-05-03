@@ -1,8 +1,8 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import ProfileLink from '@/components/ProfileLink';
 import { router } from 'expo-router';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
+import ProfileLink from "@/components/ProfileLink";
 
 
 // 6F60EF
@@ -10,7 +10,7 @@ const ProfilePage = () => {
   return (
     <View style={{backgroundColor: '#F1F4F9', height: '100%', padding: 15, paddingTop: 0}}>
       <ScrollView>
-        
+
         <View style={{width: '100%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 15}}>
           <View style={{backgroundColor: '#fff', width: 130, height: 130, borderRadius: '50%', justifyContent: 'center', alignItems: 'center'}}>
             <Icon name="user" size={40} color="#777" />
