@@ -11,7 +11,7 @@ import {useAppDispatch} from "@/hooks/useAppDispatch";
 import {validateToken} from "@/store/authSlice";
 import store from "@/store";
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
     const [loaded] = useFonts({

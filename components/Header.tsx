@@ -26,9 +26,9 @@ const Header = () => {
     '/screens/album-detail',
   ];
 
-  useEffect(() => {
-    console.log('Pathname:', pathname);
-  }, [pathname]);
+  // useEffect(() => {
+  //   console.log('Pathname:', pathname);
+  // }, [pathname]);
 
   if(hiddenPaths.includes(pathname)) return null;
   return (
