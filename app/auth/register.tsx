@@ -1,8 +1,8 @@
 import { View, TextInput, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; // Add useEffect import
 import { useAuth } from '../../hooks/useAuth';
 import { Ionicons } from '@expo/vector-icons';
-import {Link, useRouter} from "expo-router";
+import { Link, useRouter } from 'expo-router';
 
 export default function Register() {
     const [email, setEmail] = useState('');
@@ -13,21 +13,24 @@ export default function Register() {
     const { signUp, user } = useAuth();
     const router = useRouter();
 
+    // Handle navigation when user is authenticated
+    useEffect(() => {
+        if (user) {
+            router.replace('/(tabs)');
+        }
+    }, [user, router]); // Run effect when user or router changes
+
     const handleRegister = async () => {
         setLoading(true);
         setError('');
         try {
             await signUp(email, password);
-            router.replace('/(tabs)');
+            // Navigation will be handled by useEffect when user is updated
         } catch (err: any) {
             setError(err.message || 'Registration failed. Please try again.');
         }
         setLoading(false);
     };
-
-    if (user) {
-        router.replace('/(tabs)');
-    }
 
     return (
         <View style={styles.container}>
@@ -82,6 +85,7 @@ export default function Register() {
     );
 }
 
+// Styles remain unchanged
 const styles = StyleSheet.create({
     container: {
         flex: 1,

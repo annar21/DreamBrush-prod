@@ -1,13 +1,13 @@
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState, createContext, useContext } from 'react';
 import 'react-native-reanimated';
 import { useSelector, Provider } from 'react-redux';
-import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { validateToken } from "@/store/authSlice";
-import store from "@/store";
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { validateToken } from '@/store/authSlice';
+import store from '@/store';
 
 // Prevent splash screen auto-hide
 SplashScreen.preventAutoHideAsync();
@@ -25,13 +25,14 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isLoading, setIsLoading] = useState(true);
     const { user } = useSelector((state: any) => state.auth);
     const dispatch = useAppDispatch();
+    const isAuthenticated = !!user;
 
     useEffect(() => {
         const checkAuth = async () => {
             try {
                 await dispatch(validateToken()).unwrap();
             } catch (err) {
-                // Token validation failed
+                console.log('Token validation failed:', err);
             } finally {
                 setIsLoading(false);
             }
@@ -40,8 +41,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         checkAuth();
     }, [dispatch]);
 
+    useEffect(() => {
+        if (!isLoading && !isAuthenticated) {
+            console.log('Redirecting to auth/login');
+            router.replace('/auth/login');
+        }
+    }, [isLoading, isAuthenticated]);
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated: !!user, isLoading }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading }}>
             {children}
         </AuthContext.Provider>
     );

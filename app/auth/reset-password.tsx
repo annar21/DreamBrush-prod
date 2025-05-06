@@ -18,7 +18,7 @@ export default function ResetPassword() {
         try {
             if (token) {
                 // Case 1: Update password with token
-                await axios.post('http://your-backend-url/api/reset-password', {
+                await axios.post('http://api.shopper.am/api/reset-password', {
                     token,
                     newPassword: emailOrPassword,
                 });
@@ -26,7 +26,7 @@ export default function ResetPassword() {
                 router.replace('/auth/login');
             } else {
                 // Case 2: Request reset link
-                await axios.post('http://your-backend-url/api/reset-password', {
+                await axios.post('http://api.shopper.am/api/reset-password', {
                     email: emailOrPassword,
                 });
                 setMessage('Reset link sent! Check your email.');
