@@ -30,6 +30,7 @@ interface CreateAlbumModalProps {
 
 const AlbumsPage = () => {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [albmusLoading, setAlbumsLoading] = useState<boolean>(false);
     const [albums, setAlbums] = useState<Album[]>([]);
     const [error, setError] = useState<string | null>(null);
     const { user, token } = useAuth();
@@ -39,6 +40,7 @@ const AlbumsPage = () => {
     useEffect(() => {
         const fetchAlbums = async () => {
             try {
+                setAlbumsLoading(true);
                 const response = await axios.get(`${API_BASE_URL}/albums`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -75,6 +77,8 @@ const AlbumsPage = () => {
             } catch (error: any) {
                 console.error('Error fetching albums:', error.message, error.config);
                 setError('Failed to load albums. Please try again.');
+            } finally {
+                setAlbumsLoading(false);
             }
         };
 
@@ -86,7 +90,7 @@ const AlbumsPage = () => {
     const renderAlbumItem = ({ item }: { item: Album }) => (
         <AlbumView
             title={item.title}
-            previewImage={item.previewImage}
+            // previewImage={item.previewImage}
             onPress={() =>
                 router.push({
                     pathname: '/(tabs)/(albums)/screens/album-detail',

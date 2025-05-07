@@ -1,5 +1,8 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import IonIcon from 'react-native-vector-icons/Ionicons'
+import FeatherIcon from 'react-native-vector-icons/Feather'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { router } from 'expo-router';
 import {ScrollView, TouchableOpacity, View, Text} from 'react-native';
 import ProfileLink from "@/components/ProfileLink";
@@ -34,11 +37,11 @@ const ProfilePage = () => {
       </View>
 
         <View style={{marginTop: 25, gap: 10}}>
-          <ProfileLink title='Edit Profile' icon={() => <Text>Icon</Text>} onPress={() => {router.push('/(tabs)/(profile)/screens/edit')}} />
-          <ProfileLink title='Share' icon={() => <Text>Icon</Text>} onPress={() => {}} />
-          <ProfileLink title='Leave a Review' icon={() => <Text>Icon</Text>} onPress={() => {}} />
-          <ProfileLink title='Legal' icon={() => <Text>Icon</Text>} onPress={() => {}} />
-          <ProfileLink title='Restore Purchases' icon={() => <Text>Icon</Text>} onPress={() => {}} />
+          <ProfileLink title='Edit Profile' icon={() => <Icon name='pencil-alt' size={15} />} onPress={() => {router.push('/(tabs)/(profile)/screens/edit')}} />
+          <ProfileLink title='Share' icon={() => <Icon name='share-alt' size={15} />} onPress={() => {}} />
+          <ProfileLink title='Leave a Review' icon={() => <IonIcon name='chatbox-ellipses-outline' size={20} />} onPress={() => {}} />
+          <ProfileLink title='Legal' icon={() => <FeatherIcon name='align-left' size={20} />} onPress={() => {}} />
+          <ProfileLink title='Restore Purchases' icon={() => <MaterialIcon name='restore' size={20} />} onPress={() => {}} />
         </View>
 
         <View style={{marginTop: 25, gap: 10, marginBottom: 20}}>

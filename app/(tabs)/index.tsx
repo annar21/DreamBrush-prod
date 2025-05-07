@@ -5,7 +5,8 @@ import { router } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useAuth } from '@/hooks/useAuth';
 import axios from 'axios';
-
+import SkeletonLoader from '@/components/SkeletonLoader';
+// import Loader from '@/components/Loader';
 // Define the type for an image item
 interface ImageItem {
     id: string;
@@ -15,6 +16,7 @@ interface ImageItem {
 
 export default function HomeScreen() {
     const [prompt, setPrompt] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     const [recentImages, setRecentImages] = useState<ImageItem[]>([]);
     const { user, token } = useAuth();
     const API_BASE_URL = 'https://api.shopper.am/api';
@@ -22,6 +24,7 @@ export default function HomeScreen() {
     useEffect(() => {
         const fetchRecentImages = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get(`${API_BASE_URL}/images/recent`, {
                     headers: {
                         Authorization: `Bearer ${token}`, // Assuming token is available in useAuth
@@ -30,6 +33,8 @@ export default function HomeScreen() {
                 setRecentImages(response.data);
             } catch (error) {
                 console.error('Error fetching recent images:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -113,6 +118,8 @@ export default function HomeScreen() {
                 columnWrapperStyle={styles.gridRow}
                 style={styles.grid}
             />
+            <SkeletonLoader />
+
         </LinearGradient>
     );
 }
