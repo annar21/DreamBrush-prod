@@ -60,7 +60,7 @@ export default function GenerateScreen() {
                     headers: { Authorization: `Bearer ${storedToken}` },
                 }
             );
-
+            console.log(response.data)
             setGeneratedImage(response.data.image);
             setPrompt("");
         } catch (err: any) {

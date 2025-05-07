@@ -1,108 +1,110 @@
-// app/(tabs)/index.tsx
 import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
-import { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient'; // For background gradient
-import { router } from 'expo-router'; // Use expo-router for navigation
+import { useState, useEffect } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {useAuth} from "@/hooks/useAuth"; // For icons
+import { useAuth } from '@/hooks/useAuth';
+import axios from 'axios';
 
 // Define the type for an image item
 interface ImageItem {
     id: string;
-    source: number; // For local image sources (result of require)
+    url: string; // URL from the database
     prompt: string;
 }
 
 export default function HomeScreen() {
     const [prompt, setPrompt] = useState<string>('');
-    const { user } = useAuth(); // Get the current user from useAuth
+    const [recentImages, setRecentImages] = useState<ImageItem[]>([]);
+    const { user, token } = useAuth();
+    const API_BASE_URL = 'https://api.shopper.am/api';
+    // Fetch recent images on component mount
+    useEffect(() => {
+        const fetchRecentImages = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/images/recent`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Assuming token is available in useAuth
+                    },
+                });
+                setRecentImages(response.data);
+            } catch (error) {
+                console.error('Error fetching recent images:', error);
+            }
+        };
 
-    // Import images from assets
-    const recentImages: ImageItem[] = [
-        { id: '1', source: require('../../assets/images/adaptive-icon.png'), prompt: 'Colorful fox' },
-        { id: '2', source: require('../../assets/images/partial-react-logo.png'), prompt: 'Futuristic car' },
-        { id: '3', source: require('../../assets/images/splash-icon.png'), prompt: 'Soccer game' },
-        { id: '4', source: require('../../assets/images/react-logo.png'), prompt: 'Broken glass' },
-    ];
+        if (user) {
+            fetchRecentImages();
+        }
+    }, [user]);
 
     const renderImageItem = ({ item }: { item: ImageItem }) => (
         <TouchableOpacity style={styles.imageItem}>
             <Image
-                source={item.source}
+                source={{ uri: item.url }}
                 style={styles.gridImage}
                 resizeMode="cover"
             />
         </TouchableOpacity>
     );
 
-    // Handle navigation for the user/profile icon
-    // const handleUserIconPress = () => {
-    //     if (user) {
-    //         router.push('/profile'); // Navigate to Profile if user is authenticated
-    //     } else {
-    //         router.push('/auth/login'); // Navigate to Login if user is not authenticated
-    //     }
-    // };
-
-    // Handle navigation for the UPGRADE button
-    // const handleUpgradePress = () => {
-    //     router.push('/subscription'); // Navigate to Subscription page
-    // };
-
-    // Handle navigation for the SEE ALL button
     const handleSeeAllPress = () => {
-        router.push('/(tabs)/(explore)'); // Navigate to Gallery page
+        router.push('/(tabs)/(explore)');
     };
 
     return (
         <LinearGradient
-            colors={['#e0e7ff', '#f5f5f5']} // Subtle gradient from light blue to gray
+            colors={['#e0e7ff', '#f5f5f5']}
             style={styles.container}
         >
             <Text style={styles.tagline}>Unleash your creativity, egsdf!</Text>
 
-            {/* Prompt Input */}
-            {/* <View style={styles.inputContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter an image prompt..."
-                    placeholderTextColor="#888"
-                    value={prompt}
-                    onChangeText={setPrompt}
-                />
-                <TouchableOpacity style={styles.generateButton}>
-                    <Text style={styles.generateButtonText}>→</Text>
-                </TouchableOpacity>
-            </View> */}
-
             <Pressable onPress={() => router.push('/(tabs)/generate')}>
-							<View
-									style={{borderWidth: 1, borderColor: 'lightgray', flexDirection: 'row', alignItems: 'center', padding: 5, borderRadius: 5, justifyContent: 'space-between', backgroundColor: '#fff', marginBottom: 20 }}
+                <View
+                    style={{
+                        borderWidth: 1,
+                        borderColor: 'lightgray',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        padding: 5,
+                        borderRadius: 5,
+                        justifyContent: 'space-between',
+                        backgroundColor: '#fff',
+                        marginBottom: 20,
+                    }}
+                >
+                    <TextInput
+                        placeholder="Enter an image prompt..."
+                        style={{ maxWidth: '80%', maxHeight: 40 }}
+                        value={prompt}
+                        onChangeText={setPrompt}
+                        editable={false}
+                    />
+                    <TouchableOpacity
+                        style={styles.generateButton}
+                        onPress={() => router.push('/(tabs)/generate')}
+                    >
+                        <Icon
+                            name="chevron-right"
+                            size={20}
+                            color="white"
+                            style={{ position: 'relative', left: 2 }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </Pressable>
 
-							>
-									<TextInput
-											placeholder='Enter an image prompt...'
-											style={{maxWidth: '80%', maxHeight: 40}}
-											value={prompt}
-											onChangeText={setPrompt}
-											editable={false}
-									/>
-									<TouchableOpacity style={styles.generateButton} onPress={() => router.push('/(tabs)/generate')}>
-											<Icon name='chevron-right' size={20} color='white' style={{position: 'relative', left: 2}} />
-									</TouchableOpacity>
-							</View>
-						</Pressable>
-
-            {/* Recent Images Section */}
             <View style={styles.recentImagesHeader}>
                 <Text style={styles.sectionTitle}>Recent Images</Text>
-                <TouchableOpacity onPress={handleSeeAllPress} style={{flexDirection: 'row', alignItems: 'center', gap:5}}>
+                <TouchableOpacity
+                    onPress={handleSeeAllPress}
+                    style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}
+                >
                     <Text style={styles.seeAllText}>SEE ALL</Text>
                     <Icon name="chevron-right" size={12} color="#6200ea" />
                 </TouchableOpacity>
             </View>
 
-            {/* Image Grid */}
             <FlatList
                 data={recentImages}
                 renderItem={renderImageItem}
@@ -120,46 +122,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
         paddingTop: 50,
-        paddingBottom: 60, // Add padding to avoid overlap with the tab bar
-    },
-    headerContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 15,
-        height: 40,
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    headerRight: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    upgradeButton: {
-        backgroundColor: '#f5f5f5',
-        borderRadius: 15,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        marginRight: 5,
-        width: 80,
-        height: 30,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    upgradeText: {
-        color: '#6200ea',
-        fontSize: 14,
-        fontWeight: '600',
-    },
-    profileIcon: {
-        padding: 8,
-    },
-    profileIconText: {
-        fontSize: 20,
-        color: '#666',
+        paddingBottom: 60,
     },
     tagline: {
         fontSize: 28,
@@ -194,11 +157,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    generateButtonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
     recentImagesHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -207,7 +165,7 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontSize: 16,
-        fontWeight: 500,
+        fontWeight: '500',
         color: '#8D90A7',
     },
     seeAllText: {

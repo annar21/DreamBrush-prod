@@ -1,67 +1,232 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import StyleCard from "@/components/StyleCard";
-import RadioButtons from "@/components/RadioButtons";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import StyleCard from '@/components/StyleCard';
+import RadioButtons from '@/components/RadioButtons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import axios from 'axios';
+import { useAuth } from '@/hooks/useAuth';
 
-
-// bg - F1F4F9, chevron-right
-// dark purple - 6B5FF0
-// light purple - D5D3F8
-// dark gray - 5D6371
-// light gray - E5E5E7
-//
+// Define the type for an image item
+interface ImageItem {
+  id: string;
+  url: string;
+  prompt: string;
+}
 
 const ExplorePage = () => {
-  const [filter, setFilter] = React.useState<string | null>('TOP');
+  const [filter, setFilter] = useState<string | null>('TOP');
+  const [images, setImages] = useState<ImageItem[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+  const { user, token } = useAuth();
+  const API_BASE_URL = 'https://api.shopper.am/api';
+  // Fetch images from the backend
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get(
+            `${API_BASE_URL}/images`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+              params: {
+                page,
+                limit: 10,
+              },
+            }
+        );
+        setImages((prev) => [...prev, ...response.data.images]);
+        setTotalPages(response.data.pagination.pages);
+        setError(null);
+      } catch (error: any) {
+        console.error('Error fetching images:', error.message, error.config);
+        setError('Failed to load images. Please try again.');
+      }
+    };
 
-  return (
-    <SafeAreaView style={{backgroundColor: '#F1F4F9', height: '100%'}}>
-      <ScrollView>
-        <View style={{padding: 15, paddingTop: 10}}>
+    if (user) {
+      fetchImages();
+    }
+  }, [user, page]);
 
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-          <View><Text style={{color: "#5D6371", fontWeight: 600, fontSize: 15}}>Images by Style</Text></View>
+  const renderImageItem = ({ item }: { item: ImageItem }) => (
+      <TouchableOpacity style={styles.imageItem}>
+        <Image
+            source={{ uri: item.url }}
+            style={styles.gridImage}
+            resizeMode="cover"
+        />
+      </TouchableOpacity>
+  );
+
+  const handleLoadMore = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const renderHeader = () => (
+      <View>
+        <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 15,
+              paddingTop: 10,
+            }}
+        >
+          <View>
+            <Text style={{ color: '#5D6371', fontWeight: '600', fontSize: 15 }}>
+              Images by Style
+            </Text>
+          </View>
           <TouchableOpacity>
-            <View style={{flexDirection: 'row', gap: 8, justifyContent: 'space-between', alignItems: 'center', marginTop: 10}}>
-              <Text style={{color: '#6B5FF0', fontWeight: 600, fontSize: 14}}>SEE ALL</Text>
+            <View
+                style={{
+                  flexDirection: 'row',
+                  gap: 8,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}
+            >
+              <Text style={{ color: '#6B5FF0', fontWeight: '600', fontSize: 14 }}>
+                SEE ALL
+              </Text>
               <Icon name="chevron-right" size={12} color="#6B5FF0" />
             </View>
           </TouchableOpacity>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{flexDirection: 'row', gap: 10, marginTop: 10}}>
-          <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
-          <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
-          <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
-          <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
-          <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
-          <StyleCard image={<View style={{width: 80, height: 90, backgroundColor: 'red'}}></View>} title='image' />
-        </ScrollView>
+        <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={[
+              { id: '1', title: 'image' },
+              { id: '2', title: 'image' },
+              { id: '3', title: 'image' },
+              { id: '4', title: 'image' },
+              { id: '5', title: 'image' },
+              { id: '6', title: 'image' },
+            ]}
+            renderItem={({ item }) => (
+                <StyleCard
+                    image={
+                      <View style={{ width: 80, height: 90, backgroundColor: 'red' }}></View>
+                    }
+                    title={item.title}
+                />
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ flexDirection: 'row', gap: 10, paddingHorizontal: 15 }}
+            style={{ marginTop: 10 }}
+        />
 
-        <View style={{flexDirection: 'row', marginTop: 20}}>
+        <View style={{ flexDirection: 'row', marginTop: 20, paddingHorizontal: 15 }}>
           <RadioButtons
-            options={['TOP', 'NEW']}
-            selectedOption={filter}
-            onSelect={(option) => setFilter(option)}
+              options={['TOP', 'NEW']}
+              selectedOption={filter}
+              onSelect={(option) => setFilter(option)}
           />
         </View>
 
-        {/* <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text>
-        <Text style={{fontSize: 90}}>dfweg</Text> */}
-
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        {error && (
+            <Text
+                style={{
+                  textAlign: 'center',
+                  color: '#5D6371',
+                  marginTop: 20,
+                  paddingHorizontal: 15,
+                }}
+            >
+              {error}
+            </Text>
+        )}
+      </View>
   );
-}
+
+  return (
+      <SafeAreaView style={{ backgroundColor: '#F1F4F9', flex: 1 }}>
+        <FlatList
+            data={images}
+            renderItem={renderImageItem}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={styles.gridRow}
+            style={styles.grid}
+            ListHeaderComponent={renderHeader}
+            ListEmptyComponent={
+              images.length === 0 && !error ? (
+                  <Text
+                      style={{
+                        textAlign: 'center',
+                        color: '#5D6371',
+                        marginTop: 20,
+                        paddingHorizontal: 15,
+                      }}
+                  >
+                    No images found.
+                  </Text>
+              ) : null
+            }
+            ListFooterComponent={
+              page < totalPages ? (
+                  <TouchableOpacity
+                      onPress={handleLoadMore}
+                      style={[styles.loadMoreButton, { marginHorizontal: 15 }]}
+                  >
+                    <Text style={styles.loadMoreText}>Load More</Text>
+                  </TouchableOpacity>
+              ) : null
+            }
+            contentContainerStyle={{ paddingBottom: 20 }}
+        />
+      </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  grid: {
+    width: '100%',
+  },
+  gridRow: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+  },
+  imageItem: {
+    width: 170,
+    height: 170,
+    margin: 5,
+  },
+  gridImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
+  loadMoreButton: {
+    backgroundColor: '#6B5FF0',
+    borderRadius: 10,
+    padding: 15,
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  loadMoreText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
 
 export default ExplorePage;
