@@ -26,15 +26,15 @@ const ProfilePage = () => {
           </View>
         </View>
 
-        <View style={{width: '100%', paddingVertical: 15, backgroundColor: '#6F60EF', borderRadius: 15, marginTop: 25, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/(profile)/screens/generated-images')} style={{width: '100%', paddingVertical: 15, backgroundColor: '#6F60EF', borderRadius: 15, marginTop: 25, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
           <View>
             <Text style={{color: 'white', fontWeight: 700, fontSize: 55}}>0</Text>
           </View>
           <View style={{transform: [{translateY: 5}]}}>
-            <Text style={{color: 'white', fontWeight: 600, fontSize: 20, lineHeight: 21}}>Images</Text>
+            <Text style={{color: 'white', fontWeight: 600, fontSize: 20, lineHeight: 23, }}>Images</Text>
             <Text style={{color: 'white', fontWeight: 600, fontSize: 20, lineHeight: 21}}>Generated</Text>
           </View>
-      </View>
+        </TouchableOpacity>
 
         <View style={{marginTop: 25, gap: 10}}>
           <ProfileLink title='Edit Profile' icon={() => <Icon name='pencil-alt' size={15} />} onPress={() => {router.push('/(tabs)/(profile)/screens/edit')}} />

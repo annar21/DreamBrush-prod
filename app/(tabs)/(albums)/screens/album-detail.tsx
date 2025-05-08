@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity, FlatList, Image, Modal, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, Modal, StyleSheet } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { router, useLocalSearchParams } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+// import { Image}
 
 interface Image {
     id: string;

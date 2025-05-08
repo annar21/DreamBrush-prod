@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         paddingVertical: 15,
         alignItems: 'center',
+        justifyContent: 'center',
         height: 50,
         marginBottom: 16,
     },
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: '700',
+        
     },
     appleButton: {
         flexDirection: 'row',
@@ -159,6 +161,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: '500',
+        height: 20
     },
     signInContainer: {
         flexDirection: 'row',

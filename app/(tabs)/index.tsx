@@ -61,7 +61,7 @@ export default function HomeScreen() {
 
     return (
         <LinearGradient
-            colors={['#e0e7ff', '#f5f5f5']}
+            colors={['#eee1fa', '#f5f5f5']}
             style={styles.container}
         >
             <Text style={styles.tagline}>Unleash your creativity, egsdf!</Text>

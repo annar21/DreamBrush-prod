@@ -160,7 +160,7 @@ export default function EditProfile() {
                       )}
                     </View>
                   </TouchableOpacity>
-                  <View>
+                  {/* <View>
                     <Text
                         style={{
                           fontSize: 10,
@@ -197,7 +197,7 @@ export default function EditProfile() {
                           />
                       ))}
                     </View>
-                  </View>
+                  </View> */}
                 </View>
 
                 <View style={{ gap: 15, marginTop: 30 }}>
