@@ -29,7 +29,14 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to take photos.",
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photo library to select images."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

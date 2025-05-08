@@ -47,13 +47,12 @@ const AlbumsPage = () => {
                     },
                 });
                 const albumsData = response.data;
-
                 // Fetch preview image for each album
                 const albumsWithImages = await Promise.all(
                     albumsData.map(async (album: { id: string; title: string }) => {
                         try {
                             const imageResponse = await axios.get(
-                                `http://10.0.2.2:8000/api/albums/${album.id}/images`,
+                                `${API_BASE_URL}/albums/${album.id}/images`,
                                 {
                                     headers: {
                                         Authorization: `Bearer ${token}`,

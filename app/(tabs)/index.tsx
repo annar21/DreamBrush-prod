@@ -1,4 +1,4 @@
-import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
+import { View, TextInput, Image, Text, FlatList, TouchableOpacity, StyleSheet, Pressable, ScrollView, Dimensions } from 'react-native';
 import { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -13,6 +13,8 @@ interface ImageItem {
     url: string; // URL from the database
     prompt: string;
 }
+
+const {width} = Dimensions.get('window');
 
 export default function HomeScreen() {
     const [prompt, setPrompt] = useState<string>('');
@@ -110,15 +112,35 @@ export default function HomeScreen() {
                 </TouchableOpacity>
             </View>
 
-            <FlatList
-                data={recentImages}
-                renderItem={renderImageItem}
-                keyExtractor={(item) => item.id}
-                numColumns={2}
-                columnWrapperStyle={styles.gridRow}
-                style={styles.grid}
-            />
-            <SkeletonLoader />
+            {/*<FlatList*/}
+            {/*    data={recentImages}*/}
+            {/*    renderItem={renderImageItem}*/}
+            {/*    keyExtractor={(item) => item.id}*/}
+            {/*    numColumns={2}*/}
+            {/*    columnWrapperStyle={styles.gridRow}*/}
+            {/*    style={styles.grid}*/}
+            {/*/>*/}
+
+            {!loading ? <FlatList
+                    data={recentImages}
+                    renderItem={renderImageItem}
+                    keyExtractor={(item) => item.id}
+                    numColumns={2}
+                    columnWrapperStyle={styles.gridRow}
+                    style={styles.grid}
+                /> :
+                <ScrollView contentContainerStyle={{display: 'flex', alignItems: 'center'}}>
+                    <View style={{width, flexDirection: 'row', flexWrap: 'wrap', gap: 10, justifyContent: 'center', alignItems: 'center'}}>
+                        <SkeletonLoader />
+                        <SkeletonLoader />
+                        <SkeletonLoader />
+                        <SkeletonLoader />
+                        <SkeletonLoader />
+                        <SkeletonLoader />
+                    </View>
+                </ScrollView>
+            }
+
 
         </LinearGradient>
     );

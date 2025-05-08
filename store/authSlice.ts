@@ -10,12 +10,19 @@ interface RegisterPayload {
 }
 
 interface AuthResponse {
-    user: { id: string; email: string; image_count: number; package: { name: string; image_limit: number } };
+    user: { id: string; email: string; image_count: number; package: { name: string; image_limit: number }, avatar: string | null };
     token: string;
 }
 
 interface AuthState {
-    user: { id: string; email: string; image_count: number; package: { name: string; image_limit: number } } | null;
+    user:
+        {
+            id: string;
+            email: string;
+            image_count: number;
+            package: { name: string; image_limit: number };
+            avatar: string
+        } | null;
     token: string | null;
     loading: boolean;
     error: string | null;

@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 14,
         top: '50%',
-        transform: [{ translateY: -10 }],
+        transform: [{ translateY: -17 }],
     },
     createButton: {
         backgroundColor: '#6200EE',

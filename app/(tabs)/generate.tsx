@@ -173,7 +173,7 @@ export default function GenerateScreen() {
                 />
             )}
             {error && (
-                <Text style={{color: 'red', fontSize: 14, marginTop: 16, textAlign: 'center'}}>
+                <Text style={{color: 'red', fontSize: 14, marginTop: 16, textAlign: 'center', paddingBottom: 20}}>
                     {error}
                 </Text>
             )}
