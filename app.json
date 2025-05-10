@@ -1,32 +1,39 @@
 {
   "expo": {
-    "name": "DreamBrush",
-    "slug": "DreamBrush",
+    "name": ".kh,jb",
+    "slug": "dsdfghj",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "dreambrush",
+    "icon": "./assets/images/mone_logo.png",
+    "scheme": "gfcv",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/mone_logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.narek53.dsdfghj",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/mone_logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/mone_logo.png"
     },
     "plugins": [
       "expo-router",
@@ -36,10 +43,24 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to take photos.",
           "photosPermission": "Allow $(PRODUCT_NAME) to access your photo library to select images."
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/mone_logo.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#000"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b4542aa9-1163-452d-94ea-dcf724d610e4"
+      }
     }
   }
 }

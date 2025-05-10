@@ -1,0 +1,1 @@
+export const styles = ["Anime", "Cartoon", "Photorealistic","Fantasy", "Cyberpunk", "Pixel Art"];

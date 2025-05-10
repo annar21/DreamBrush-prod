@@ -6,6 +6,9 @@ import UpgradePlanModal from "@/components/UpgradePlanModal";
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { addImages } from "@/store/userSlice";
+import { ImageItem } from ".";
 
 const API_BASE_URL = "https://api.shopper.am/api";
 
@@ -20,6 +23,7 @@ export default function GenerateScreen() {
     const [generatedImage, setGeneratedImage] = useState<string | null>(null);
     const { user } = useAuth();
     const inputRef = useRef<TextInput>(null);
+    const dispatch = useAppDispatch();
 
     const onPress = (style: string) => {
         if (selectedStyle === style) {
@@ -60,9 +64,10 @@ export default function GenerateScreen() {
                     headers: { Authorization: `Bearer ${storedToken}` },
                 }
             );
-            console.log(response.data)
+            console.log('generate response data \n', response.data)
             setGeneratedImage(response.data.image);
             setPrompt("");
+            dispatch(addImages([{url: response.data.image, id: response.data.id, prompt: response.data.prompt}] as ImageItem[]));
         } catch (err: any) {
             console.error("Image generation error:", err.response?.data || err.message);
             setError(

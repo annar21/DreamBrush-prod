@@ -91,7 +91,7 @@ const ExplorePage = () => {
               Images by Style
             </Text>
           </View>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View
                 style={{
                   flexDirection: 'row',
@@ -106,24 +106,27 @@ const ExplorePage = () => {
               </Text>
               <Icon name="chevron-right" size={12} color="#6B5FF0" />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
             data={[
-              { id: '1', title: 'image' },
-              { id: '2', title: 'image' },
-              { id: '3', title: 'image' },
-              { id: '4', title: 'image' },
-              { id: '5', title: 'image' },
-              { id: '6', title: 'image' },
+              { id: '1', title: 'Anime' },
+              { id: '2', title: 'Cartoon' },
+              { id: '3', title: 'Photorealistic' },
+              { id: '4', title: 'Fantasy' },
+              { id: '5', title: 'Cyberpunk' },
+              { id: '6', title: 'Pixel Art' },
             ]}
             renderItem={({ item }) => (
                 <StyleCard
                     image={
-                      <View style={{ width: 80, height: 90, backgroundColor: 'red' }}></View>
+                      // <View style={{ width: 80, height: 90, backgroundColor: 'red' }}></View>
+                      <View>
+                        <Image style={{width: 80, height: 'auto'}} resizeMode="cover" source={{uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s'}} />
+                      </View>
                     }
                     title={item.title}
                 />
@@ -133,7 +136,7 @@ const ExplorePage = () => {
             style={{ marginTop: 10 }}
         />
 
-        <View style={{ flexDirection: 'row', marginTop: 20, paddingHorizontal: 15 }}>
+        <View style={{ flexDirection: 'row', marginTop: 20, paddingHorizontal: 15, marginBottom: 20 }}>
           <RadioButtons
               options={['TOP', 'NEW']}
               selectedOption={filter}

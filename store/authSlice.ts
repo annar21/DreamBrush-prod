@@ -21,7 +21,7 @@ interface AuthState {
             email: string;
             image_count: number;
             package: { name: string; image_limit: number };
-            avatar: string
+            avatar: string | null
         } | null;
     token: string | null;
     loading: boolean;

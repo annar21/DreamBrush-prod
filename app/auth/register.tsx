@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: '500',
-        height: 20
+        lineHeight: 18
     },
     signInContainer: {
         flexDirection: 'row',

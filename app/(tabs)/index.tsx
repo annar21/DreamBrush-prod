@@ -6,9 +6,12 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useAuth } from '@/hooks/useAuth';
 import axios from 'axios';
 import SkeletonLoader from '@/components/SkeletonLoader';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { addImages } from '@/store/userSlice';
+import { useAppSelector } from '@/hooks/useAppSelector';
 // import Loader from '@/components/Loader';
 // Define the type for an image item
-interface ImageItem {
+export interface ImageItem {
     id: string;
     url: string; // URL from the database
     prompt: string;
@@ -19,9 +22,11 @@ const {width} = Dimensions.get('window');
 export default function HomeScreen() {
     const [prompt, setPrompt] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const [recentImages, setRecentImages] = useState<ImageItem[]>([]);
+    // const [recentImages, setRecentImages] = useState<ImageItem[]>([]);
     const { user, token } = useAuth();
+    const dispatch = useAppDispatch();
     const API_BASE_URL = 'https://api.shopper.am/api';
+    const { recentImages } = useAppSelector(state => state.user);
     // Fetch recent images on component mount
     useEffect(() => {
         const fetchRecentImages = async () => {
@@ -32,7 +37,8 @@ export default function HomeScreen() {
                         Authorization: `Bearer ${token}`, // Assuming token is available in useAuth
                     },
                 });
-                setRecentImages(response.data);
+                // setRecentImages(response.data);
+                dispatch(addImages(response.data));
             } catch (error) {
                 console.error('Error fetching recent images:', error);
             } finally {
@@ -61,7 +67,15 @@ export default function HomeScreen() {
 
     return (
         <LinearGradient
-            colors={['#eee1fa', '#f5f5f5']}
+            // colors={['#d3b6ef', '#f5f5f5']}
+            colors={[
+                'rgba(33, 114, 145, 1)',
+                'rgba(26, 41, 115, 1)',
+                'rgba(145, 56, 209, 1)',
+                'rgba(219, 29, 153, 1)'
+            ]}
+            start={{ x: 0.1, y: 1 }}
+            end={{ x: 1, y: 0 }}
             style={styles.container}
         >
             <Text style={styles.tagline}>Unleash your creativity, egsdf!</Text>
@@ -108,7 +122,7 @@ export default function HomeScreen() {
                     style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}
                 >
                     <Text style={styles.seeAllText}>SEE ALL</Text>
-                    <Icon name="chevron-right" size={12} color="#6200ea" />
+                    <Icon name="chevron-right" size={12} color="#fff" />
                 </TouchableOpacity>
             </View>
 
@@ -156,7 +170,7 @@ const styles = StyleSheet.create({
     tagline: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#fff',
         marginBottom: 20,
         textAlign: 'left',
     },
@@ -195,15 +209,16 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#8D90A7',
+        color: '#fff',
     },
     seeAllText: {
-        color: '#6200ea',
+        color: '#fff',
         fontSize: 14,
         fontWeight: '600',
     },
     grid: {
         width: '100%',
+        paddingHorizontal: 5
     },
     gridRow: {
         justifyContent: 'space-between',
