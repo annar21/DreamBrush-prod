@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import axios from 'axios';
 import SkeletonLoader from '@/components/SkeletonLoader';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { addImages } from '@/store/userSlice';
+import { setImages } from '@/store/userSlice';
 import { useAppSelector } from '@/hooks/useAppSelector';
 // import Loader from '@/components/Loader';
 // Define the type for an image item
@@ -38,7 +38,7 @@ export default function HomeScreen() {
                     },
                 });
                 // setRecentImages(response.data);
-                dispatch(addImages(response.data));
+                dispatch(setImages(response.data));
             } catch (error) {
                 console.error('Error fetching recent images:', error);
             } finally {
@@ -52,7 +52,7 @@ export default function HomeScreen() {
     }, [user]);
 
     const renderImageItem = ({ item }: { item: ImageItem }) => (
-        <TouchableOpacity style={styles.imageItem}>
+        <TouchableOpacity style={styles.imageItem} onPress={() => router.push({pathname: '/(tabs)/(home)/screens/image-detail', params: {id: item.id} })}>
             <Image
                 source={{ uri: item.url }}
                 style={styles.gridImage}
@@ -163,7 +163,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         paddingTop: 50,
         paddingBottom: 60,
     },
@@ -218,10 +218,11 @@ const styles = StyleSheet.create({
     },
     grid: {
         width: '100%',
-        paddingHorizontal: 5
+        // paddingHorizontal: 5
     },
     gridRow: {
         justifyContent: 'space-between',
+        // paddingHorizontal: 15
     },
     imageItem: {
         width: 170,

@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+import { LinearGradient } from 'expo-linear-gradient';
 // import { Image}
 
 interface Image {
@@ -117,11 +118,21 @@ export default function AlbumDetail() {
     );
 
     return (
-        <View style={styles.container}>
+        <LinearGradient
+            colors={[
+                'rgba(33, 114, 145, 1)',
+                'rgba(26, 41, 115, 1)',
+                'rgba(145, 56, 209, 1)',
+                'rgba(219, 29, 153, 1)'
+            ]}
+            start={{ x: 0.1, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.container}
+        >
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()}>
-                    <Icon name="arrow-left" size={20} color="#000" />
+                    <Icon name="arrow-left" size={20} color="#fff" />
                 </TouchableOpacity>
                 <View>
                     <Text style={styles.headerTitle}>{albumTitle}</Text>
@@ -135,7 +146,7 @@ export default function AlbumDetail() {
                         setIsModalVisible(true);
                     }}
                 >
-                    <Icon name="plus" size={20} color="#000" />
+                    <Icon name="plus" size={20} color="#fff" />
                 </TouchableOpacity>
             </View>
 
@@ -185,7 +196,7 @@ export default function AlbumDetail() {
                     />
                 </View>
             </Modal>
-        </View>
+        </LinearGradient>
     );
 }
 
@@ -201,7 +212,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingVertical: 15,
-        backgroundColor: '#fff',
+        backgroundColor: '#64338f',
         borderRadius: 10,
         marginHorizontal: 15,
         marginBottom: 10,
@@ -210,14 +221,15 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: '500',
         textAlign: 'center',
+        color: '#fff'
     },
     headerSubtitle: {
         textAlign: 'center',
-        color: '#5D6371',
+        color: '#fff',
     },
     errorText: {
         textAlign: 'center',
-        color: '#5D6371',
+        color: '#fff',
         marginVertical: 10,
         fontSize: 16,
     },

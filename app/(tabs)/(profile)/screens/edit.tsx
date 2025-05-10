@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { useAuth } from '@/hooks/useAuth';
+import { LinearGradient } from "expo-linear-gradient";
 
 const API_URL = 'https://api.shopper.am/api';
 
@@ -105,7 +106,17 @@ export default function EditProfile() {
   }
 
   return (
-      <View style={{ backgroundColor: "#fff", flex: 1 }}>
+      <LinearGradient
+      colors={[
+          'rgba(33, 114, 145, 1)',
+          'rgba(26, 41, 115, 1)',
+          'rgba(145, 56, 209, 1)',
+          'rgba(219, 29, 153, 1)'
+        ]}
+        start={{ x: 0.1, y: 1 }}
+        end={{ x: 1, y: 0 }}
+        style={{ flex: 1 }}
+      >
         <View
             style={{
               paddingHorizontal: 20,
@@ -114,16 +125,16 @@ export default function EditProfile() {
               justifyContent: "space-between",
               alignItems: "center",
               paddingVertical: 15,
-              backgroundColor: "#fff",
+              backgroundColor: "#64338f",
               borderRadius: 10,
               marginBottom: 10,
             }}
         >
           <TouchableOpacity onPress={() => router.back()}>
-            <Icon name="arrow-left" size={20} color="#000" />
+            <Icon name="arrow-left" size={20} color="#fff" />
           </TouchableOpacity>
           <View>
-            <Text style={{ fontSize: 22, fontWeight: "500" }}>Edit Profile</Text>
+            <Text style={{ fontSize: 22, fontWeight: "500", color: '#fff' }}>Edit Profile</Text>
           </View>
           <View />
         </View>
@@ -264,6 +275,6 @@ export default function EditProfile() {
               </>
           )}
         </View>
-      </View>
+      </LinearGradient>
   );
 }

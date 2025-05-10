@@ -1,4 +1,4 @@
-import { ImageItem } from "@/app/(tabs)";
+import { ImageItem } from "@/app/(tabs)/(home)";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
@@ -13,11 +13,11 @@ const userSlice = createSlice({
   name: 'user',
   initialState, 
   reducers: {
-    addImages: (state, action: PayloadAction<ImageItem[]>) => {
-      state.recentImages = [...state.recentImages, ...action.payload];
+    setImages: (state, action: PayloadAction<ImageItem[]>) => {
+      state.recentImages = action.payload;
     }
   },
 });
 
-export const { addImages } = userSlice.actions;
+export const { setImages } = userSlice.actions;
 export default userSlice.reducer;

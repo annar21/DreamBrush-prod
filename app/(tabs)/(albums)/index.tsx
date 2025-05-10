@@ -6,6 +6,7 @@ import CreateAlbumModal from '@/components/CreateAlbumModal';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+import { LinearGradient } from 'expo-linear-gradient';
 
 // Define the type for an album
 interface Album {
@@ -106,7 +107,17 @@ const AlbumsPage = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <LinearGradient
+            colors={[
+                'rgba(33, 114, 145, 1)',
+                'rgba(26, 41, 115, 1)',
+                'rgba(145, 56, 209, 1)',
+                'rgba(219, 29, 153, 1)'
+            ]}
+            start={{ x: 0.1, y: 1 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.container}
+        >
             {error && <Text style={styles.errorText}>{error}</Text>}
             <FlatList
                 data={albums}
@@ -134,7 +145,7 @@ const AlbumsPage = () => {
                 setVisible={setModalVisible}
                 onAlbumCreated={handleAlbumCreated}
             />
-        </View>
+        </LinearGradient>
     );
 };
 

@@ -23,8 +23,9 @@ export default function TabLayout() {
                 // tabBarInactiveTintColor: '#8d90a7'
             }}
             tabBar={(props: any) => <BottomTabBar {...props} />}
+        // initialRouteName='/(tabs)/home/index
         >
-            <Tabs.Screen name="index" options={{ title: 'Home' }} />
+            <Tabs.Screen name="(home)" options={{ title: 'Home' }} />
             <Tabs.Screen name="(explore)" options={{ title: 'Explore' }} />
             <Tabs.Screen name="generate" options={{ title: 'Generate' }} />
             <Tabs.Screen name="(albums)" options={{ title: 'Albums' }} />

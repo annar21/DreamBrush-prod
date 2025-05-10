@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import UpgradePlanModal from './UpgradePlanModal'
 import { router, usePathname } from 'expo-router'
 import { ParamListBase, RouteProp, useRoute } from '@react-navigation/native'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const Header = () => {
   // const route = useRoute();
@@ -32,11 +33,16 @@ const Header = () => {
 
   if(hiddenPaths.includes(pathname)) return null;
   return (
-    <View style={{backgroundColor: '#fff', paddingBottom: 10, paddingHorizontal: 15, paddingTop: 40, }}>
+    <LinearGradient 
+      colors={['#64338f', '#7b31bd', ]}
+      start={{ x: 0, y: 0.5 }}
+      end={{ x: 1, y: 0.5 }}
+      style={{backgroundColor: '#fff', paddingBottom: 10, paddingHorizontal: 15, paddingTop: 40, }}
+    >
 
       <View style={{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center',}}>
         <View>
-          <Text style={{fontSize: 20, fontWeight: 700}}>DreamBrush</Text>
+          <Text style={{fontSize: 20, fontWeight: 700, color: '#fff'}}>DreamBrush</Text>
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
@@ -53,14 +59,14 @@ const Header = () => {
             </View>
           </View>
 
-          <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#F1F5F8', justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{width: 48, height: 48, borderRadius: 24, backgroundColor: '#E4DFFD', justifyContent: 'center', alignItems: 'center'}}>
             <TouchableOpacity
               style={{width: 48, height: 48, justifyContent: 'center', alignItems: 'center'}}
               onPress={() => {
                 if(route.name !== "(profile)") router.push('/(tabs)/(profile)')
               }}
             >
-              <Icon name="user" size={20} />
+              <Icon name="user" size={20} color={"#452362"} />
             </TouchableOpacity>
           </View>
 
@@ -69,8 +75,8 @@ const Header = () => {
 
       </View>
 
-      {route.name === '(explore)' && (
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20}}>
+      {/* {route.name === '(explore)' && (
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 20, paddingBottom: 10}}>
           <View style={{width: '85%'}}>
             <TextInput
               placeholder='Search...'
@@ -81,10 +87,10 @@ const Header = () => {
             <Icon name="search" size={18} color="white" />
           </TouchableOpacity>
         </View>
-      )}
+      )} */}
 
       <UpgradePlanModal visible={visible} setVisible={setVisible} />
-    </View>
+    </LinearGradient>
   );
 }
 

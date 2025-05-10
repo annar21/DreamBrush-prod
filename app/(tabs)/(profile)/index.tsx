@@ -6,23 +6,34 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { router } from 'expo-router';
 import {ScrollView, TouchableOpacity, View, Text} from 'react-native';
 import ProfileLink from "@/components/ProfileLink";
+import { LinearGradient } from 'expo-linear-gradient'
 
 
 // 6F60EF
 const ProfilePage = () => {
   return (
-    <View style={{backgroundColor: '#F1F4F9', height: '100%', padding: 15, paddingTop: 0}}>
+    <LinearGradient
+      colors={[
+        'rgba(33, 114, 145, 1)',
+        'rgba(26, 41, 115, 1)',
+        'rgba(145, 56, 209, 1)',
+        'rgba(219, 29, 153, 1)'
+      ]}
+      start={{ x: 0.1, y: 1 }}
+      end={{ x: 1, y: 0 }}
+      style={{backgroundColor: '#F1F4F9', height: '100%', padding: 15, paddingTop: 0}}
+    >
       <ScrollView>
 
         <View style={{width: '100%', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 15}}>
           <View style={{backgroundColor: '#fff', width: 130, height: 130, borderRadius: '50%', justifyContent: 'center', alignItems: 'center'}}>
-            <Icon name="user" size={40} color="#777" />
+            <Icon name="user" size={40} color="#fff" />
           </View>
 
           <View style={{marginTop: 25,}}>
-            <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 600, marginBottom: 5}}>egsdf grsd</Text>
-            <Text style={{textAlign: 'center', color: '#777'}}>grsdf</Text>
-            <Text style={{textAlign: 'center', color: '#777'}}>grdf@grsd.com</Text>
+            <Text style={{textAlign: 'center', fontSize: 20, fontWeight: 600, marginBottom: 5, color: '#fff'}}>egsdf grsd</Text>
+            <Text style={{textAlign: 'center', color: '#fff'}}>grsdf</Text>
+            <Text style={{textAlign: 'center', color: '#fff'}}>grdf@grsd.com</Text>
           </View>
         </View>
 
@@ -59,7 +70,7 @@ const ProfilePage = () => {
         </View>
 
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 

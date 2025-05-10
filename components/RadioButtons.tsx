@@ -17,7 +17,7 @@ export default function RadioButtons({options, selectedOption, onSelect}: RadioB
       {options.map((option, index) => (
         <View 
           style={[
-            { backgroundColor: '#E5E5E7', borderRadius: 20, },
+            { backgroundColor: '#fff', borderRadius: 20, },
             selectedOption === option && {backgroundColor: '#D5D3F8'}
             // selectedOption === option && {borderColor: 'rgba(57, 255, 20, 1)', borderWidth: 1}
           ]}

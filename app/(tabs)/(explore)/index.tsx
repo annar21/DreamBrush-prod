@@ -13,6 +13,10 @@ import RadioButtons from '@/components/RadioButtons';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import axios from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { router } from 'expo-router';
 
 // Define the type for an image item
 interface ImageItem {
@@ -29,6 +33,8 @@ const ExplorePage = () => {
   const [error, setError] = useState<string | null>(null);
   const { user, token } = useAuth();
   const API_BASE_URL = 'https://api.shopper.am/api';
+  const { recentImages } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
   // Fetch images from the backend
   useEffect(() => {
     const fetchImages = async () => {
@@ -60,7 +66,7 @@ const ExplorePage = () => {
   }, [user, page]);
 
   const renderImageItem = ({ item }: { item: ImageItem }) => (
-      <TouchableOpacity style={styles.imageItem}>
+      <TouchableOpacity style={styles.imageItem} onPress={() => router.push({pathname: '/(tabs)/(explore)/screens/image-detail', params: {id: item.id}})}>
         <Image
             source={{ uri: item.url }}
             style={styles.gridImage}
@@ -84,10 +90,11 @@ const ExplorePage = () => {
               alignItems: 'center',
               paddingHorizontal: 15,
               paddingTop: 10,
+              marginBottom: 25
             }}
         >
           <View>
-            <Text style={{ color: '#5D6371', fontWeight: '600', fontSize: 15 }}>
+            <Text style={{ color: '#fff', fontWeight: '600', fontSize: 15 }}>
               Images by Style
             </Text>
           </View>
@@ -120,6 +127,7 @@ const ExplorePage = () => {
               { id: '5', title: 'Cyberpunk' },
               { id: '6', title: 'Pixel Art' },
             ]}
+            
             renderItem={({ item }) => (
                 <StyleCard
                     image={
@@ -136,13 +144,13 @@ const ExplorePage = () => {
             style={{ marginTop: 10 }}
         />
 
-        <View style={{ flexDirection: 'row', marginTop: 20, paddingHorizontal: 15, marginBottom: 20 }}>
+        {/* <View style={{ flexDirection: 'row', marginTop: 20, paddingHorizontal: 15, marginBottom: 20 }}>
           <RadioButtons
               options={['TOP', 'NEW']}
               selectedOption={filter}
               onSelect={(option) => setFilter(option)}
           />
-        </View>
+        </View> */}
 
         {error && (
             <Text
@@ -160,42 +168,52 @@ const ExplorePage = () => {
   );
 
   return (
-      <SafeAreaView style={{ backgroundColor: '#F1F4F9', flex: 1 }}>
-        <FlatList
-            data={images}
-            renderItem={renderImageItem}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            columnWrapperStyle={styles.gridRow}
-            style={styles.grid}
-            ListHeaderComponent={renderHeader}
-            ListEmptyComponent={
-              images.length === 0 && !error ? (
-                  <Text
-                      style={{
-                        textAlign: 'center',
-                        color: '#5D6371',
-                        marginTop: 20,
-                        paddingHorizontal: 15,
-                      }}
-                  >
-                    No images found.
-                  </Text>
-              ) : null
-            }
-            ListFooterComponent={
-              page < totalPages ? (
-                  <TouchableOpacity
-                      onPress={handleLoadMore}
-                      style={[styles.loadMoreButton, { marginHorizontal: 15 }]}
-                  >
-                    <Text style={styles.loadMoreText}>Load More</Text>
-                  </TouchableOpacity>
-              ) : null
-            }
-            contentContainerStyle={{ paddingBottom: 20 }}
-        />
-      </SafeAreaView>
+    <LinearGradient
+      colors={[
+            'rgba(33, 114, 145, 1)',
+            'rgba(26, 41, 115, 1)',
+            'rgba(145, 56, 209, 1)',
+            'rgba(219, 29, 153, 1)'
+        ]}
+        start={{ x: 0.1, y: 1 }}
+        end={{ x: 1, y: 0 }}
+        style={{flex: 1}}
+    >
+      <FlatList
+        data={images}
+        renderItem={renderImageItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.gridRow}
+        style={styles.grid}
+        ListHeaderComponent={renderHeader}
+        ListEmptyComponent={
+          images.length === 0 && !error ? (
+              <Text
+                  style={{
+                    textAlign: 'center',
+                    color: '#5D6371',
+                    marginTop: 20,
+                    paddingHorizontal: 15,
+                  }}
+              >
+                No images found.
+              </Text>
+          ) : null
+        }
+        ListFooterComponent={
+          page < totalPages ? (
+              <TouchableOpacity
+                  onPress={handleLoadMore}
+                  style={[styles.loadMoreButton, { marginHorizontal: 15 }]}
+              >
+                <Text style={styles.loadMoreText}>Load More</Text>
+              </TouchableOpacity>
+          ) : null
+        }
+        contentContainerStyle={{ paddingBottom: 20 }}
+      />
+    </LinearGradient>
   );
 };
 

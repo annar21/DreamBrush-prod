@@ -7,8 +7,9 @@ import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { addImages } from "@/store/userSlice";
-import { ImageItem } from ".";
+import { setImages } from "@/store/userSlice";
+import { ImageItem } from "./(home)";
+import { LinearGradient } from "expo-linear-gradient";
 
 const API_BASE_URL = "https://api.shopper.am/api";
 
@@ -67,7 +68,7 @@ export default function GenerateScreen() {
             console.log('generate response data \n', response.data)
             setGeneratedImage(response.data.image);
             setPrompt("");
-            dispatch(addImages([{url: response.data.image, id: response.data.id, prompt: response.data.prompt}] as ImageItem[]));
+            dispatch(setImages([{url: response.data.image, id: response.data.id, prompt: response.data.prompt}] as ImageItem[]));
         } catch (err: any) {
             console.error("Image generation error:", err.response?.data || err.message);
             setError(
@@ -83,9 +84,19 @@ export default function GenerateScreen() {
         : 10;
 
     return (
-        <ScrollView contentContainerStyle={{backgroundColor: '#F1F4F9', paddingTop: 25, paddingHorizontal: 20}}>
+        <LinearGradient
+            colors={[
+                'rgba(33, 114, 145, 1)',
+                'rgba(26, 41, 115, 1)',
+                'rgba(145, 56, 209, 1)',
+                'rgba(219, 29, 153, 1)'
+            ]}
+            start={{ x: 0.1, y: 1 }}
+            end={{ x: 1, y: 0 }}
+        >
+            <ScrollView contentContainerStyle={{paddingTop: 25, paddingHorizontal: 20}}>
             <View>
-                <Text style={{fontSize: 22, fontWeight: 600, marginBottom: 15}}>
+                <Text style={{fontSize: 22, fontWeight: 600, marginBottom: 15, color: '#fff'}}>
                     Generate an AI image
                 </Text>
                 <TextInput
@@ -164,7 +175,7 @@ export default function GenerateScreen() {
                 <View style={{marginTop: 20, alignItems: 'center'}}>
                     <Image
                         source={{ uri: generatedImage }}
-                        style={{width: 300, height: 300, borderRadius: 8}}
+                        style={{width: 300, height: 300, borderRadius: 8, marginBottom: 40}}
                         resizeMode="contain"
                     />
                 </View>
@@ -174,7 +185,7 @@ export default function GenerateScreen() {
                 <ActivityIndicator
                     size="large"
                     color="#6B5FF0"
-                    style={{marginTop: 16}}
+                    style={{marginTop: 16, marginBottom: 25}}
                 />
             )}
             {error && (
@@ -185,5 +196,6 @@ export default function GenerateScreen() {
 
             <UpgradePlanModal visible={visible} setVisible={setVisible} />
         </ScrollView>
+        </LinearGradient>
     );
 }

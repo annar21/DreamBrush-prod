@@ -1,7 +1,8 @@
-import { View, TouchableOpacity, Text, Animated } from 'react-native';
+import { View, TouchableOpacity, Text, Animated, Image } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { useEffect, useRef } from 'react';
+import mone_logo from '../assets/images/mone_logo.png'
 
 export default function BottomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const translateY = useRef(new Animated.Value(0)).current;
@@ -52,7 +53,7 @@ export default function BottomTabBar({ state, descriptors, navigation }: BottomT
   
 
   return (
-    <View style={{ flexDirection: 'row', padding: 10, backgroundColor: '#fff' }}>
+    <View style={{ flexDirection: 'row', padding: 10, backgroundColor: '#452362' }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         // const label = options.tabBarLabel ?? route.name;
@@ -94,20 +95,21 @@ export default function BottomTabBar({ state, descriptors, navigation }: BottomT
             label !== 'Generate' ? 
               (
                 <>
-                  <Icon name={iconName!} size={18} color={isFocused ? '#6f61ef' : '#8d90a7'} style={{marginBottom: 3}} />
+                  <Icon name={iconName!} size={18} color={isFocused ? '#6f61ef' : '#fff'} style={{marginBottom: 3}} />
                   <Text style={[
                     {fontSize: 12},
-                    { color: isFocused ? '#6f61ef' : '#8d90a7' }
+                    { color: isFocused ? '#6f61ef' : '#fff' }
                   ]}>
                     {label} 
                   </Text>
                 </>
               ) : (
                 <Animated.View style={[
-                  {width: 65, height: 65, borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: '#6F61EF', position: 'relative', bottom: 35},
+                  {width: 65, height: 65, borderRadius: 15, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f5f5f5', position: 'relative', bottom: 35},
                   {transform: [{translateY: translateY}, {rotate: rotateInterpolate}]}
                 ]}>
-                  <Text style={{textAlign: 'center'}}>✨</Text>
+                  {/* <Text style={{textAlign: 'center'}}>✨</Text> */}
+                  <Image source={mone_logo} style={{width: 50, height: 50}} />
                 </Animated.View>
               )
             }
